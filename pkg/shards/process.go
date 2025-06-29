@@ -11,15 +11,14 @@ type rarity string
 type category string
 
 const (
-	shardDataLocation          = "shards.json"
-	rarityCommon      rarity   = "common"
-	rarityUncommon    rarity   = "uncommon"
-	rarityRare        rarity   = "rare"
-	rarityEpic        rarity   = "epic"
-	rarityLegendary   rarity   = "legendary"
-	categoryForest    category = "forest"
-	categoryWater     category = "water"
-	categoryCombat    category = "combat"
+	rarityCommon    rarity   = "common"
+	rarityUncommon  rarity   = "uncommon"
+	rarityRare      rarity   = "rare"
+	rarityEpic      rarity   = "epic"
+	rarityLegendary rarity   = "legendary"
+	categoryForest  category = "forest"
+	categoryWater   category = "water"
+	categoryCombat  category = "combat"
 )
 
 type shardConfig struct {
@@ -41,8 +40,8 @@ type shardConfigData struct {
 	SpecialFuses      []specialFuse `json:"specialFuses"`
 }
 
-func loadShardConfig() (*shardConfig, error) {
-	data, err := os.ReadFile(shardDataLocation)
+func loadShardConfig(filePath string) (*shardConfig, error) {
+	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read shard data file: %v", err)
 	}
@@ -56,8 +55,8 @@ func loadShardConfig() (*shardConfig, error) {
 	return &config, nil
 }
 
-func processShards() (map[string]*shard, error) {
-	config, err := loadShardConfig()
+func processShards(filePath string) (map[string]*shard, error) {
+	config, err := loadShardConfig(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("error loading shard config: %v", err)
 	}

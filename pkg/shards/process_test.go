@@ -4,6 +4,8 @@ import (
 	"testing"
 )
 
+const testShardDataLocation = "../../data/shards.json"
+
 var confirmedResults = []fuseCombination{
 	{
 		Shard1: "R53",
@@ -93,10 +95,21 @@ var confirmedResults = []fuseCombination{
 			{Type: "special", ID: "C1", Multiplier: 2},
 		},
 	},
+	{
+		Shard1: "C11",
+		Cost1:  5,
+		Shard2: "C27",
+		Cost2:  5,
+		Results: []fuseResult{
+			{Type: "basic", ID: "C14", Multiplier: 1},
+			{Type: "basic", ID: "C29", Multiplier: 1},
+			{Type: "special", ID: "U5", Multiplier: 1},
+		},
+	},
 }
 
 func TestProcessShardConfig(t *testing.T) {
-	shards, err := processShards()
+	shards, err := processShards(testShardDataLocation)
 
 	// fmt.Printf("Shard: %v\n", shards["C1"])
 

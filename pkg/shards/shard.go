@@ -27,24 +27,24 @@ type specialFuse struct {
 }
 
 type specialFuseRequirement struct {
-	Rarity   []string `json:"rarity"`
-	Category []string `json:"category"`
-	Shard    []string `json:"shard"`
-	Family   []string `json:"family"`
+	Rarity   []string `json:"rarity,omitempty"`
+	Category []string `json:"category,omitempty"`
+	Shard    []string `json:"shard,omitempty"`
+	Family   []string `json:"family,omitempty"`
 }
 
 type fuseCombination struct {
-	Shard1  string
-	Cost1   int
-	Shard2  string
-	Cost2   int
-	Results []fuseResult
+	Shard1  string       `json:"shard1"`
+	Cost1   int          `json:"cost1"`
+	Shard2  string       `json:"shard2"`
+	Cost2   int          `json:"cost2"`
+	Results []fuseResult `json:"results"`
 }
 
 type fuseResult struct {
-	Type       string
-	ID         string
-	Multiplier int
+	Type       string `json:"type"`
+	ID         string `json:"id"`
+	Multiplier int    `json:"multiplier"`
 }
 
 func rarityValue(r rarity) int {

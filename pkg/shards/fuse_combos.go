@@ -33,23 +33,8 @@ func getAllSpecialFuseOptions(shards map[string]*shard) []*specialFuseOption {
 
 func getFusePriority(opt *specialFuseOption, shards map[string]*shard) int {
 	shard := shards[opt.target]
-	sortNum := shard.Number + rarityValue(shard.Rarity)*1000
-
-	// Prioritize uncommon+ over common+ somehow
-	// I suspect they may have a series of if statements,
-	// in which case there's no reliable way we can determine priority with logic
-	for _, req := range []specialFuseRequirement{opt.option.Requirement1, opt.option.Requirement2} {
-		if len(req.Category) == 0 && len(req.Shard) == 0 && len(req.Family) == 0 {
-			for _, r := range req.Rarity {
-				if r[len(r)-1:] == "+" {
-					baseRarity := rarity(r[:len(r)-1])
-					value := rarityValue(baseRarity)
-					sortNum += (value - 5) * 10000
-				}
-			}
-		}
-	}
-
+	// prioritize high rarity, then lower number
+	sortNum := (1000 - shard.Number) + rarityValue(shard.Rarity)*10000
 	return sortNum
 }
 
@@ -145,7 +130,7 @@ func addFuseCombos(shards map[string]*shard, cfg *shardConfig) {
 
 			if len(results) > 3 {
 				//fmt.Printf("Shard1: %s, Shard2: %s, Results: %v\n", s1.ID, s2.ID, results)
-				results = results[:3] // Limit to 3 results
+				results = results[:3]
 			}
 
 			s1.FuseCombinations[s2.ID] = fuseCombination{

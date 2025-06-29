@@ -1,6 +1,8 @@
 import { createSignal } from 'solid-js'
-import { initShardFuseCalc } from './calc/shardfuse'
-import type { ShardView, FuseCombinationView } from './calc/shardfuse'
+import { initShardFuseCalc } from './calc'
+import type { Shard, ValuatedFuseResult } from './calc'
+
+type ShardView = Partial<Shard>
 
 function App() {
   const Calc = initShardFuseCalc();
@@ -8,7 +10,7 @@ function App() {
 
   const [selectedShard, setSelectedShard] = createSignal("");
   const [shardData, setShardData] = createSignal<ShardView>({});
-  const [fuseCombinations, setFuseCombinations] = createSignal<FuseCombinationView[]>([]);
+  const [fuseCombinations, setFuseCombinations] = createSignal<ValuatedFuseResult[]>([]);
   const [sourcesText, setSourcesText] = createSignal("");
 
   function processSelectedShard(shardId: string) {
@@ -17,7 +19,7 @@ function App() {
       const shard = Calc.getShard(shardId);
       setShardData(shard);
       window.shard = shard; // For debugging purposes
-      setFuseCombinations(Calc.getFuseView(shardId));
+      setFuseCombinations(Calc.getFuseOptions(shardId));
       if (shard.sources && shard.sources.length > 0) {
         setSourcesText(`Sources: ${shard.sources.join(', ')}`);
       } else{
@@ -46,7 +48,7 @@ function App() {
           {sourcesText()}
         </p>
         <p>
-          {JSON.stringify(shardData().specialFuseRequirements, null, 2)}
+          {JSON.stringify(shardData().specialFuses, null, 2)}
         </p>
       </div>
       <h2>Combinations:</h2>
@@ -56,6 +58,7 @@ function App() {
             <th>Shard1</th>
             <th>Shard2</th>
             <th>Cost per Shard</th>
+            <th>Swappable</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +66,8 @@ function App() {
             <tr>
               <td>{combination.shard1} - {combination.shard1Name}</td>
               <td>{combination.shard2} - {combination.shard2Name}</td>
-              <td>{combination.costPerShard}</td>
+              <td>{combination.bazaarPricePerShard}</td>
+              <td>{combination.swappable ? "Yes" : "No"}</td>
             </tr>
           ))}
         </tbody>
