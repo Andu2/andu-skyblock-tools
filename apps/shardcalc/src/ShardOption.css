@@ -1,0 +1,32 @@
+.shard-option {
+    padding: 2px 5px;
+    background-color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.shard-image {
+    width: 30px;
+    height: 30px;
+}
+
+.shard-name {
+    font-weight: bold;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.selected {
+    background-color: #202020;
+}

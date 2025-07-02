@@ -11,6 +11,11 @@ func DumpShardData(inFile string, outFile string) {
 		panic(err)
 	}
 
+	// Remove special fuse details from the front-end view - only the text description is required
+	for _, shard := range shards.Shards {
+		shard.SpecialFuses = nil
+	}
+
 	processedShardJson, err := json.MarshalIndent(shards, "", "  ")
 	if err != nil {
 		panic(err)

@@ -4,25 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 )
 
-type rarity string
-type category string
-
-const (
-	rarityCommon    rarity   = "common"
-	rarityUncommon  rarity   = "uncommon"
-	rarityRare      rarity   = "rare"
-	rarityEpic      rarity   = "epic"
-	rarityLegendary rarity   = "legendary"
-	categoryForest  category = "forest"
-	categoryWater   category = "water"
-	categoryCombat  category = "combat"
-)
-
 type shardConfig struct {
+	Skills                []string                   `json:"skills"`
 	Families              []string                   `json:"families"`
+	SourceTypes           []string                   `json:"sourceTypes"`
+	EffectTags            []string                   `json:"effectTags"`
+	CostToMax             map[string]int             `json:"costToMax"`
 	FamilyFuseCost        map[string]int             `json:"familyFuseCost"`
 	SpecialFuseMultiplier int                        `json:"specialFuseMultiplier"`
 	Shards                map[string]shardConfigData `json:"shards"`
@@ -32,11 +23,15 @@ type shardConfigData struct {
 	Name              string        `json:"name"`
 	BazaarId          string        `json:"bazaarId"`
 	AttributeName     string        `json:"attributeName"`
+	EffectDescription string        `json:"effectDescription"`
+	EffectMax         float64       `json:"effectMax"`
+	Effect2Max        float64       `json:"effect2Max"`
+	EffectTags        []string      `json:"effectTags"`
 	Category          string        `json:"category"`
 	Skill             string        `json:"skill"`
 	Families          []string      `json:"families"`
 	IsBasicFuseTarget bool          `json:"isBasicFuseTarget"`
-	Sources           []string      `json:"sources"`
+	Sources           []source      `json:"sources"`
 	SpecialFuses      []specialFuse `json:"specialFuses"`
 }
 
@@ -55,10 +50,49 @@ func loadShardConfig(filePath string) (*shardConfig, error) {
 	return &config, nil
 }
 
-func processShards(filePath string) (map[string]*shard, error) {
+type processedShardData struct {
+	FamilyShards           map[string][]string         `json:"familyShards"`
+	CategoryShards         map[category][]string       `json:"categoryShards"`
+	SkillShards            map[string][]string         `json:"skillShards"`
+	RarityShards           map[rarity][]string         `json:"rarityShards"`
+	TagShards              map[string][]string         `json:"tagShards"`
+	SourceTypeShards       map[string][]string         `json:"sourceTypeShards"`
+	CostToMax              map[string]int              `json:"costToMax"`
+	Shards                 map[string]*shard           `json:"shards"`
+	SpecialRequirements    []string                    `json:"specialRequirements"`
+	SpecialRequirementInfo map[string]*requirementInfo `json:"specialRequirementInfo"`
+}
+
+func processShards(filePath string) (*processedShardData, error) {
 	config, err := loadShardConfig(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("error loading shard config: %v", err)
+	}
+
+	// Categorize these in a bunch of ways to minimize front-end logic
+	familyShards := make(map[string][]string, len(config.Families))
+	for _, family := range config.Families {
+		familyShards[family] = make([]string, 0, 20)
+	}
+	categoryShards := make(map[category][]string, 3)
+	for _, cat := range []category{categoryForest, categoryWater, categoryCombat} {
+		categoryShards[cat] = make([]string, 0, 100)
+	}
+	skillShards := make(map[string][]string, len(config.Skills))
+	for _, skill := range config.Skills {
+		skillShards[skill] = make([]string, 0, 50)
+	}
+	rarityShards := make(map[rarity][]string, 5)
+	for _, r := range []rarity{rarityCommon, rarityUncommon, rarityRare, rarityEpic, rarityLegendary} {
+		rarityShards[r] = make([]string, 0, 100)
+	}
+	tagShards := make(map[string][]string, len(config.EffectTags))
+	for _, tag := range config.EffectTags {
+		tagShards[tag] = make([]string, 0, 10)
+	}
+	sourceTypeShards := make(map[string][]string, len(config.SourceTypes))
+	for _, sourceType := range config.SourceTypes {
+		sourceTypeShards[sourceType] = make([]string, 0, 100)
 	}
 
 	shards := make(map[string]*shard)
@@ -78,8 +112,41 @@ func processShards(filePath string) (map[string]*shard, error) {
 			return nil, fmt.Errorf("error processing families for shard ID %s: %v", id, err)
 		}
 
+		effectTags, err := processTags(data.EffectTags, config.EffectTags)
+		if err != nil {
+			return nil, fmt.Errorf("error processing effect tags for shard ID %s: %v", id, err)
+		}
+
 		if err := validateSpecialFuses(data.SpecialFuses); err != nil {
 			return nil, fmt.Errorf("error validating special fuses for shard ID %s: %v", id, err)
+		}
+
+		rarityShards[rarity] = append(rarityShards[rarity], id)
+		categoryShards[category] = append(categoryShards[category], id)
+		skillShards[data.Skill] = append(skillShards[data.Skill], id)
+		for tag := range effectTags {
+			tagShards[tag] = append(tagShards[tag], id)
+		}
+		for family := range families {
+			familyShards[family] = append(familyShards[family], id)
+		}
+
+		sources := data.Sources
+		if len(sources) == 0 {
+			sources = []source{
+				{SourceType: "fusionOnly", SourceDesc: "Fusion Only"},
+			}
+		}
+		for _, source := range sources {
+			sourceTypeShards[source.SourceType] = append(sourceTypeShards[source.SourceType], id)
+		}
+
+		specialFusesDesc := make([][]string, 0, len(data.SpecialFuses))
+		for _, sf := range data.SpecialFuses {
+			desc1 := getRequirementDescription(&sf.Requirement1)
+			desc2 := getRequirementDescription(&sf.Requirement2)
+			desc := []string{desc1, desc2}
+			specialFusesDesc = append(specialFusesDesc, desc)
 		}
 
 		shard := &shard{
@@ -89,12 +156,17 @@ func processShards(filePath string) (map[string]*shard, error) {
 			Rarity:            rarity,
 			Number:            number,
 			AttributeName:     data.AttributeName,
+			EffectDescription: data.EffectDescription,
+			EffectMax:         data.EffectMax,
+			Effect2Max:        data.Effect2Max,
+			EffectTags:        effectTags,
 			Category:          category,
 			Skill:             data.Skill,
 			Families:          families,
 			IsBasicFuseTarget: data.IsBasicFuseTarget,
-			Sources:           data.Sources,
+			Sources:           sources,
 			SpecialFuses:      data.SpecialFuses,
+			SpecialFusesDesc:  specialFusesDesc,
 
 			// The rest get filled in later
 			FuseCombinations: make(map[string]fuseCombination),
@@ -112,7 +184,60 @@ func processShards(filePath string) (map[string]*shard, error) {
 	addChameleonFusionTargets(shards)
 	addFuseCombos(shards, config)
 
-	return shards, nil
+	requirementInfo := collectRequirementInfo(shards)
+	requirementList := make([]string, 0, len(requirementInfo))
+	for req := range requirementInfo {
+		requirementList = append(requirementList, req)
+	}
+	slices.SortFunc(requirementList, func(a, b string) int {
+		return len(requirementInfo[b].Targets) - len(requirementInfo[a].Targets)
+	})
+
+	for _, shardIds := range familyShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+	for _, shardIds := range categoryShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+	for _, shardIds := range skillShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+	for _, shardIds := range rarityShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+	for _, shardIds := range tagShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+	for _, shardIds := range sourceTypeShards {
+		slices.SortFunc(shardIds, func(a, b string) int {
+			return getShardSortValue(shards[a]) - getShardSortValue(shards[b])
+		})
+	}
+
+	shardData := &processedShardData{
+		FamilyShards:           familyShards,
+		CategoryShards:         categoryShards,
+		SkillShards:            skillShards,
+		RarityShards:           rarityShards,
+		TagShards:              tagShards,
+		SourceTypeShards:       sourceTypeShards,
+		CostToMax:              config.CostToMax,
+		Shards:                 shards,
+		SpecialRequirementInfo: requirementInfo,
+		SpecialRequirements:    requirementList,
+	}
+
+	return shardData, nil
 }
 
 func processId(id string) (rarity, int, error) {
@@ -189,12 +314,28 @@ func processFamilies(families []string, familyConfig []string) (map[string]bool,
 }
 
 func validateFamily(family string, familyConfig []string) error {
-	for _, f := range familyConfig {
-		if f == family {
-			return nil
-		}
+	if slices.Contains(familyConfig, family) {
+		return nil
 	}
 	return fmt.Errorf("invalid family: %s", family)
+}
+
+func processTags(tags []string, tagConfig []string) (map[string]bool, error) {
+	tagMap := make(map[string]bool)
+	for _, tag := range tags {
+		if validateTag(tag, tagConfig) != nil {
+			return nil, fmt.Errorf("invalid tag: %s", tag)
+		}
+		tagMap[tag] = true
+	}
+	return tagMap, nil
+}
+
+func validateTag(tag string, tagConfig []string) error {
+	if slices.Contains(tagConfig, tag) {
+		return nil
+	}
+	return fmt.Errorf("invalid tag: %s", tag)
 }
 
 func validateSpecialFuses(specialFuses []specialFuse) error {

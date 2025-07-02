@@ -109,7 +109,7 @@ var confirmedResults = []fuseCombination{
 }
 
 func TestProcessShardConfig(t *testing.T) {
-	shards, err := processShards(testShardDataLocation)
+	shardData, err := processShards(testShardDataLocation)
 
 	// fmt.Printf("Shard: %v\n", shards["C1"])
 
@@ -117,12 +117,12 @@ func TestProcessShardConfig(t *testing.T) {
 		t.Fatalf("Failed to process shard config: %v", err)
 	}
 
-	if len(shards) == 0 {
+	if len(shardData.Shards) == 0 {
 		t.Error("Expected non-empty shards map")
 	}
 
 	for _, result := range confirmedResults {
-		s1, ok := shards[result.Shard1]
+		s1, ok := shardData.Shards[result.Shard1]
 		if !ok {
 			t.Errorf("Shard %s not found in processed shards", result.Shard1)
 			continue

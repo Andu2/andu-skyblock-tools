@@ -1,5 +1,9 @@
 package shards
 
+import (
+	"strings"
+)
+
 func meetsSpecialFuseRequirement(shard *shard, req *specialFuseRequirement) bool {
 	if len(req.Rarity) > 0 {
 		meetsOne := false
@@ -70,4 +74,64 @@ func meetsSpecialFuseRequirement(shard *shard, req *specialFuseRequirement) bool
 	}
 
 	return true
+}
+
+// This lets us identify requirements that are the same
+func getRequirementDescription(req *specialFuseRequirement) string {
+	descs := make([]string, 0, 4)
+
+	if len(req.Shard) > 0 {
+		descs = append(descs, "Shard: "+strings.Join(req.Shard, " or "))
+	}
+	if len(req.Family) > 0 {
+		descs = append(descs, "Family: "+strings.Join(req.Family, " or "))
+	}
+	if len(req.Category) > 0 {
+		descs = append(descs, "Category: "+strings.Join(req.Category, " or "))
+	}
+	if len(req.Rarity) > 0 {
+		descs = append(descs, "Rarity: "+strings.Join(req.Rarity, " or "))
+	}
+
+	return strings.Join(descs, " and ")
+}
+
+type requirementInfo struct {
+	Targets     []string `json:"targets"`
+	Matches     []string `json:"matches,omitempty"`
+	Description string   `json:"description"`
+}
+
+func collectRequirementInfo(shards map[string]*shard) map[string]*requirementInfo {
+	requirements := make(map[string]*requirementInfo)
+
+	for _, s := range shards {
+		for _, fuse := range s.SpecialFuses {
+			for _, req := range []specialFuseRequirement{fuse.Requirement1, fuse.Requirement2} {
+				reqDesc := getRequirementDescription(&req)
+				processedReq, exists := requirements[reqDesc]
+				if !exists {
+					newProcessedReq := &requirementInfo{
+						Targets:     make([]string, 0),
+						Matches:     make([]string, 0),
+						Description: reqDesc,
+					}
+					newProcessedReq.Targets = append(newProcessedReq.Targets, s.ID)
+
+					// Get matches
+					for possibleMatchId, possibleMatch := range shards {
+						if meetsSpecialFuseRequirement(possibleMatch, &req) {
+							newProcessedReq.Matches = append(newProcessedReq.Matches, possibleMatchId)
+						}
+					}
+
+					requirements[reqDesc] = newProcessedReq
+				} else {
+					processedReq.Targets = append(processedReq.Targets, s.ID)
+				}
+			}
+		}
+	}
+
+	return requirements
 }

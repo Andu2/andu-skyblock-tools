@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 )
 
 const (
@@ -90,6 +91,7 @@ func GetBazaar(apiKey string) (*BazaarResponse, error) {
 }
 
 type ShardBazaarOutput struct {
+	Timestamp   int64              `json:"timestamp"`
 	ShardPrices map[string]float64 `json:"shardPrices"`
 }
 
@@ -100,6 +102,7 @@ func DumpShardPrices(apiKey string, outFile string) {
 	}
 
 	shardBazaarOutput := ShardBazaarOutput{
+		Timestamp:   time.Now().Unix(),
 		ShardPrices: make(map[string]float64),
 	}
 	for item, data := range bazaar.Products {

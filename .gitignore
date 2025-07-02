@@ -1,3 +1,5 @@
 sandbox.go
 sandbox_data
 .env
+data/shards_processed.json
+data/shard_prices.json

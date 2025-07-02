@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(5, 45, 61);
+    color: white;
+}
+
+.common {
+    color: white;
+}
+
+.uncommon {
+    color: green;
+}
+
+.rare {
+    color: blue;
+}
+
+.epic {
+    color: purple;
+}
+
+.legendary {
+    color: orange;
+}

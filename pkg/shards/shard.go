@@ -2,6 +2,20 @@ package shards
 
 import "slices"
 
+type rarity string
+type category string
+
+const (
+	rarityCommon    rarity   = "common"
+	rarityUncommon  rarity   = "uncommon"
+	rarityRare      rarity   = "rare"
+	rarityEpic      rarity   = "epic"
+	rarityLegendary rarity   = "legendary"
+	categoryForest  category = "forest"
+	categoryWater   category = "water"
+	categoryCombat  category = "combat"
+)
+
 type shard struct {
 	ID                string                     `json:"id"`
 	BazaarId          string                     `json:"bazaarId"`
@@ -9,15 +23,25 @@ type shard struct {
 	Rarity            rarity                     `json:"rarity"`
 	Number            int                        `json:"number"`
 	AttributeName     string                     `json:"attributeName"`
+	EffectDescription string                     `json:"effectDescription"`
+	EffectMax         float64                    `json:"effectMax"`
+	Effect2Max        float64                    `json:"effect2Max,omitempty"`
+	EffectTags        map[string]bool            `json:"effectTags,omitempty"`
 	Category          category                   `json:"category"`
 	Skill             string                     `json:"skill"`
-	Families          map[string]bool            `json:"families"`
+	Families          map[string]bool            `json:"families,omitempty"`
 	IsBasicFuseTarget bool                       `json:"isBasicFuseTarget"`
-	Sources           []string                   `json:"sources"`
-	SpecialFuses      []specialFuse              `json:"specialFuses"`
+	Sources           []source                   `json:"sources,omitempty"`
+	SpecialFuses      []specialFuse              `json:"specialFuses,omitempty"`
+	SpecialFusesDesc  [][]string                 `json:"specialFusesDesc,omitempty"`
 	BasicFuseTarget   string                     `json:"basicFuseTarget"`
-	ChameleonTargets  []string                   `json:"chameleonTargets"`
-	FuseCombinations  map[string]fuseCombination `json:"fuseCombinations"`
+	ChameleonTargets  []string                   `json:"chameleonTargets,omitempty"`
+	FuseCombinations  map[string]fuseCombination `json:"fuseCombinations,omitempty"`
+}
+
+type source struct {
+	SourceType string `json:"sourceType"`
+	SourceDesc string `json:"sourceDesc"`
 }
 
 type specialFuse struct {
@@ -102,9 +126,22 @@ func getSortedShards(shards map[string]*shard) []*shard {
 		sortedShards = append(sortedShards, s)
 	}
 	slices.SortFunc(sortedShards, func(a, b *shard) int {
-		sortNumA := a.Number + rarityValue(a.Rarity)*1000
-		sortNumB := b.Number + rarityValue(b.Rarity)*1000
+		sortNumA := getShardSortValue(a)
+		sortNumB := getShardSortValue(b)
 		return sortNumA - sortNumB
 	})
 	return sortedShards
 }
+
+func getShardSortValue(s *shard) int {
+	sortNum := s.Number + rarityValue(s.Rarity)*1000
+	return sortNum
+}
+
+// func getShardIdSortValue(id string, shards map[string]*shard) int {
+// 	shard, exists := shards[id]
+// 	if !exists {
+// 		panic("Shard ID not found: " + id)
+// 	}
+// 	return getShardSortValue(shard)
+// }

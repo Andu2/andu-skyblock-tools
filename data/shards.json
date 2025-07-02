@@ -26,6 +26,50 @@
         "demon",
         "turtle"
     ],
+    "skills": [
+        "global",
+        "foraging",
+        "fishing",
+        "enchanting",
+        "mining",
+        "combat",
+        "hunting",
+        "farming",
+        "taming"
+    ],
+    "effectTags": [
+        "echo",
+        "elemental",
+        "sharpening",
+        "box",
+        "ruler",
+        "resistance",
+        "hunter",
+        "atomized",
+        "wisdom",
+        "essence"
+    ],
+    "sourceTypes": [
+        "blackHole",
+        "salt",
+        "lasso",
+        "net",
+        "craft",
+        "shop",
+        "kuudra",
+        "dungeons",
+        "fishingTreasure",
+        "trap",
+        "other",
+        "fusionOnly"
+    ],
+    "costToMax": {
+        "common": 96,
+        "uncommon": 64,
+        "rare": 48,
+        "epic": 32,
+        "legendary": 24
+    },
     "familyFuseCost": {
         "default": 5,
         "elemental": 2,
@@ -38,6 +82,11 @@
             "name": "Grove",
             "bazaarId": "SHARD_GROVE",
             "attributeName": "Nature Elemental",
+            "effectDescription": "+{{effect}} health",
+            "effectMax": 20,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -66,6 +115,11 @@
             "name": "Mist",
             "bazaarId": "SHARD_MIST",
             "attributeName": "Fog Elemental",
+            "effectDescription": "+{{effect}} intelligence",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "water",
             "skill": "global",
             "families": [
@@ -94,6 +148,11 @@
             "name": "Flash",
             "bazaarId": "SHARD_FLASH",
             "attributeName": "Light Elemental",
+            "effectDescription": "+{{effect}} strength",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -122,6 +181,8 @@
             "name": "Phanpyre",
             "bazaarId": "SHARD_PHANPYRE",
             "attributeName": "Nocturnal Animal",
+            "effectDescription": "+{{effect}} sweep during night",
+            "effectMax": 10,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -129,14 +190,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Phanpyres",
-                "Traps on Land"
+                {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Phanpyres"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ]
         },
         "C5": {
             "name": "Cod",
             "bazaarId": "SHARD_COD",
             "attributeName": "Cheapskate",
+            "effectDescription": "+{{effect}}% coins from fishing treasures",
+            "effectMax": 10,
             "category": "water",
             "skill": "fishing",
             "families": [
@@ -144,15 +212,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Cod",
-                "Traps in Murkwater",
-                "Treasure Fishing"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Cod"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }, {
+                    "sourceType": "fishingTreasure",
+                    "sourceDesc": "Treasure fishing in Tomb Floodway"
+                }
             ]
         },
         "C7": {
             "name": "Phanflare",
             "bazaarId": "SHARD_PHANFLARE",
             "attributeName": "Moonglade Mastery",
+            "effectDescription": "+{{effect}} fig fortune and +{{effect}} mangrove fortune",
+            "effectMax": 100,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -160,14 +237,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Phanflares",
-                "Traps on Land"
+                {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Phanflares"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ]
         },
         "C8": {
             "name": "Night Squid",
             "bazaarId": "SHARD_NIGHT_SQUID",
             "attributeName": "Fisherman",
+            "effectDescription": "{{effect}}% chance to not consume bait",
+            "effectMax": 10,
             "category": "water",
             "skill": "fishing",
             "families": [
@@ -175,13 +259,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Night Squids"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Night Squids"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Night Squids"
+                }
             ]
         },
         "C9": {
             "name": "Lapis Zombie",
             "bazaarId": "SHARD_LAPIS_ZOMBIE",
             "attributeName": "Experience",
+            "effectDescription": "+{{effect}}% more experience orbs from killing mobs",
+            "effectMax": 100,
             "category": "combat",
             "skill": "enchanting",
             "families": [
@@ -189,13 +281,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Lapis Zombies"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Lapis Zombies"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Lapis Zombies"
+                }
             ]
         },
         "C10": {
             "name": "Hideonleaf",
             "bazaarId": "SHARD_HIDEONLEAF",
             "attributeName": "Mossy Box",
+            "effectDescription": "+{{effect}} block fortune",
+            "effectMax": 50,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "mining",
             "families": [
@@ -203,13 +306,18 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Hideonleafs"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Hunt Hideonleafs"
+                }
             ]
         },
         "C11": {
             "name": "Verdant",
             "bazaarId": "SHARD_VERDANT",
             "attributeName": "Forest Fishing",
+            "effectDescription": "+{{effect}} fishing speed while on foraging islands",
+            "effectMax": 30,
             "category": "water",
             "skill": "fishing",
             "families": [
@@ -217,49 +325,93 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Verdants",
-                "Traps in Murkwater",
-                "Treasure Fishing"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Verdants"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }, {
+                    "sourceType": "fishingTreasure",
+                    "sourceDesc": "Treasure fishing in Tomb Floodway"
+                }
             ]
         },
         "C12": {
             "name": "Chill",
             "bazaarId": "SHARD_CHILL",
             "attributeName": "Skeletal Ruler",
+            "effectDescription": "+{{effect}}% damage to skeletal creatures",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Chills",
-                "Traps in Tomb"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Chills"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Chills"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Wyrmgrove Tomb"
+                }
             ]
         },
         "C14": {
             "name": "Sea Archer",
             "bazaarId": "SHARD_SEA_ARCHER",
             "attributeName": "Monster Bait",
+            "effectDescription": "+{{effect}} sea creature chance",
+            "effectMax": 5,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Sea Archers"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Sea Archers"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Sea Archers"
+                }
             ]
         },
         "C15": {
             "name": "Voracious Spider",
             "bazaarId": "SHARD_VORACIOUS_SPIDER",
             "attributeName": "Arthropod Resistance",
+            "effectDescription": "+{{effect}} defense against spiders",
+            "effectMax": 40,
+            "effectTags": [
+                "resistance"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Voracious Spiders"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Voracious Spiders"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Voracious Spiders"
+                }
             ]
         },
         "C16": {
             "name": "Hideongift",
             "bazaarId": "SHARD_HIDEONGIFT",
             "attributeName": "Happy Box",
+            "effectDescription": "{{effect}}% chance to obtain an extra winter gift when finding one",
+            "effectMax": 20,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -285,42 +437,70 @@
             "name": "Birries",
             "bazaarId": "SHARD_BIRRIES",
             "attributeName": "Yummy",
+            "effectDescription": "+{{effect}}% chance to drop double berries and sea lumies",
+            "effectMax": 100,
             "category": "water",
             "skill": "foraging",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Birries",
-                "Traps on Land"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Birries"
+                }, {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Birries"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ]
         },
         "C18": {
             "name": "Tank Zombie",
             "bazaarId": "SHARD_TANK_ZOMBIE",
             "attributeName": "Undead Resistance",
+            "effectDescription": "+{{effect}} defense against undead monsters",
+            "effectMax": 40,
+            "effectTags": [
+                "resistance"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Tank Zombies"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Tank Zombies"
+                }
             ]
         },
         "C19": {
             "name": "Crow",
             "bazaarId": "SHARD_CROW",
             "attributeName": "Fig Sharpening",
+            "effectDescription": "+{{effect}} sweep on fig trees",
+            "effectMax": 50,
+            "effectTags": [
+                "sharpening"
+            ],
             "category": "forest",
             "skill": "foraging",
             "families": [
                 "bird"
             ],
             "sources": [
-                "Agatha's Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Agatha's shop"
+                }
             ]
         },
         "C20": {
             "name": "Tadgang",
             "bazaarId": "SHARD_TADGANG",
             "attributeName": "Unity is Strength",
+            "effectDescription": "+{{effect}} sweep for each unique common attribute owned",
+            "effectMax": 0.2,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -329,25 +509,46 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Tadgangs",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Tadgangs"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Tadgangs"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }
             ]
         },
         "C21": {
             "name": "Zealot",
             "bazaarId": "SHARD_ZEALOT",
             "attributeName": "Ender Resistance",
+            "effectDescription": "+{{effect}} defense against mobs in the end",
+            "effectMax": 40,
+            "effectTags": [
+                "resistance"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Zealots"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Zealots"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Zealots"
+                }
             ]
         },
         "C23": {
             "name": "Coralot",
             "bazaarId": "SHARD_CORALOT",
             "attributeName": "Bucket Lover",
+            "effectDescription": "{{effect}}% chance to gain extra chums",
+            "effectMax": 50,
             "category": "water",
             "skill": "fishing",
             "families": [
@@ -355,14 +556,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Coralots",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Coralots"
+                }, {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Coralots"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths under water"
+                }
             ]
         },
         "C24": {
             "name": "Harpy",
             "bazaarId": "SHARD_HARPY",
             "attributeName": "Tree Lurker",
+            "effectDescription": "Increases the odds of finding monsters from tree gifts by +{{effect}}%",
+            "effectMax": 50,
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -388,28 +599,46 @@
             "name": "Mudworm",
             "bazaarId": "SHARD_MUDWORM",
             "attributeName": "Visitor Bait",
+            "effectDescription": "Garden visitors arrive {{effect}}% faster",
+            "effectMax": 10,
             "category": "forest",
             "skill": "farming",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Mudworms"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Hunt Mudworms"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ]
         },
         "C27": {
             "name": "Golden Ghoul",
             "bazaarId": "SHARD_GOLDEN_GHOUL",
             "attributeName": "Midas Touch",
+            "effectDescription": "+{{effect}} coins per kill",
+            "effectMax": 10,
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Golden Ghouls"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Golden Ghouls"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Golden Ghouls"
+                }
             ]
         },
         "C29": {
             "name": "Azure",
             "bazaarId": "SHARD_AZURE",
             "attributeName": "Forest Strength",
+            "effectDescription": "+{{effect}} strength while on foraging islands",
+            "effectMax": 50,
             "category": "combat",
             "skill": "combat",
             "families": [
@@ -417,38 +646,68 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Azures",
-                "Traps in Murkwater",
-                "Treasure Fishing"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Azures"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }, {
+                    "sourceType": "fishingTreasure",
+                    "sourceDesc": "Treasure fishing in Tomb Floodway"
+                }
             ]
         },
         "C30": {
             "name": "Bezal",
             "bazaarId": "SHARD_BEZAL",
             "attributeName": "Blazing Resistance",
+            "effectDescription": "+{{effect}} defense against mobs while in the crimson isle",
+            "effectMax": 40,
+            "effectTags": [
+                "resistance"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Bezals",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Bezals"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Bezals"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "C33": {
             "name": "Yog",
             "bazaarId": "SHARD_YOG",
             "attributeName": "Yog Membrane",
+            "effectDescription": "+{{effect}} heat resistance",
+            "effectMax": 10,
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Yogs"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Yogs"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Yogs"
+                }
             ]
         },
         "C34": {
             "name": "Boreal Owl",
             "bazaarId": "SHARD_BOREAL_OWL",
             "attributeName": "Owl Friend",
+            "effectDescription": "+{{effect}}% more pet exp from Fann",
+            "effectMax": 20,
             "category": "forest",
             "skill": "taming",
             "families": [
@@ -474,6 +733,8 @@
             "name": "Newt",
             "bazaarId": "SHARD_NEWT",
             "attributeName": "Decent Karma",
+            "effectDescription": "+{{effect}} hunter fortune toward common attributes",
+            "effectMax": 20,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -500,6 +761,8 @@
             "name": "Miner Zombie",
             "bazaarId": "SHARD_MINER_ZOMBIE",
             "attributeName": "Rotten Pickaxe",
+            "effectDescription": "+{{effect}} mining speed",
+            "effectMax": 30,
             "category": "combat",
             "skill": "mining",
             "families": [
@@ -507,13 +770,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Miner Zombies"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Miner Zombies"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Miner Zombies"
+                }
             ]
         },
         "U1": {
             "name": "Bramble",
             "bazaarId": "SHARD_BRAMBLE",
             "attributeName": "Wood Elemental",
+            "effectDescription": "+{{effect}} health",
+            "effectMax": 20,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -542,6 +816,11 @@
             "name": "Tide",
             "bazaarId": "SHARD_TIDE",
             "attributeName": "Water Elemental",
+            "effectDescription": "+{{effect}} intelligence",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "water",
             "skill": "global",
             "families": [
@@ -570,6 +849,11 @@
             "name": "Quake",
             "bazaarId": "SHARD_QUAKE",
             "attributeName": "Stone Elemental",
+            "effectDescription": "+{{effect}} strength",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -598,19 +882,26 @@
             "name": "Sparrow",
             "bazaarId": "SHARD_SPARROW",
             "attributeName": "Fig Collector",
+            "effectDescription": "+{{effect}} fig fortune for every digit in your fig log collection (max 10M collection)",
+            "effectMax": 10,
             "category": "forest",
             "skill": "foraging",
             "families": [
                 "bird"
             ],
             "sources": [
-                "Craft"
+                {
+                    "sourceType": "craft",
+                    "sourceDesc": "Unlocked from fig collection 7"
+                }
             ]
         },
         "U5": {
             "name": "Goldfin",
             "bazaarId": "SHARD_GOLDFIN",
             "attributeName": "Gold Bait",
+            "effectDescription": "Golden fish cooldown reduced by {{effect}} seconds",
+            "effectMax": 300,
             "category": "water",
             "skill": "fishing",
             "specialFuses": [
@@ -633,6 +924,8 @@
             "name": "Troglobyte",
             "bazaarId": "SHARD_TROGLOBYTE",
             "attributeName": "Mountain Climber",
+            "effectDescription": "Commissions grant {{effect}}% more HOTM exp",
+            "effectMax": 10,
             "category": "combat",
             "skill": "mining",
             "families": [
@@ -658,6 +951,11 @@
             "name": "Hideoncave",
             "bazaarId": "SHARD_HIDEONCAVE",
             "attributeName": "Bigger Box",
+            "effectDescription": "{{effect}}% chance to find an extra item in treasure chests and the crystal nucleus",
+            "effectMax": 50,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -683,6 +981,8 @@
             "name": "Salamander",
             "bazaarId": "SHARD_SALAMANDER",
             "attributeName": "Good Karma",
+            "effectDescription": "+{{effect}} hunter fortune toward uncommon attributes",
+            "effectMax": 20,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -709,6 +1009,11 @@
             "name": "Cuboa",
             "bazaarId": "SHARD_CUBOA",
             "attributeName": "Echo of Boxes",
+            "effectDescription": "\"Box\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -735,6 +1040,8 @@
             "name": "Pest",
             "bazaarId": "SHARD_PEST",
             "attributeName": "Pest Luck",
+            "effectDescription": "+{{effect}} chance to obtain rare loot from pests",
+            "effectMax": 20,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -742,13 +1049,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Pests"
+                {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Pests"
+                }, {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Pests"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Pests"
+                }
             ]
         },
         "U11": {
             "name": "Mossybit",
             "bazaarId": "SHARD_MOSSYBIT",
             "attributeName": "Forest Trap",
+            "effectDescription": "Forest shards get caught by traps {{effect}}% faster",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -757,8 +1075,13 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Frogs",
-                "Traps on Land"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Hunt Mossybits"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ],
             "specialFuses": [
                 {
@@ -780,65 +1103,111 @@
             "name": "Rain Slime",
             "bazaarId": "SHARD_RAIN_SLIME",
             "attributeName": "Mana Steal",
+            "effectDescription": "Regain {{effect}} mana every time you hit a monster",
+            "effectMax": 5,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Rain Slimes"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Rain Slimes"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Rain Slimes"
+                }
             ]
         },
         "U15": {
             "name": "Seer",
             "bazaarId": "SHARD_SEER",
             "attributeName": "Dragon Shortbow Improvement",
+            "effectDescription": "Dragon shortbow deals +{{effect}}% more damage while in the end",
+            "effectMax": 20,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Watchers"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Seers"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Seers"
+                }
             ]
         },
         "U16": {
             "name": "Heron",
             "bazaarId": "SHARD_HERON",
             "attributeName": "Mangrove Sharpening",
+            "effectDescription": "+{{effect}} sweep on mangrove trees",
+            "effectMax": 100,
+            "effectTags": [
+                "sharpening"
+            ],
             "category": "forest",
             "skill": "foraging",
             "families": [
                 "bird"
             ],
             "sources": [
-                "Agatha's Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Agatha's shop"
+                }
             ]
         },
         "U18": {
             "name": "Obsidian Defender",
             "bazaarId": "SHARD_OBSIDIAN_DEFENDER",
             "attributeName": "Speed",
+            "effectDescription": "+{{effect}} speed",
+            "effectMax": 10,
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Obsidian Defenders"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Obsidian Defenders"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Obsidian Defenders"
+                }
             ]
         },
         "U20": {
             "name": "Salmon",
             "bazaarId": "SHARD_SALMON",
             "attributeName": "Lost and Found",
+            "effectDescription": "{{effect}}% chance to find a wet book when fishing a treasure",
+            "effectMax": 1,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Salmon",
-                "Traps in Murkwater",
-                "Treasure Fishing"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Salmon"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }, {
+                    "sourceType": "fishingTreasure",
+                    "sourceDesc": "Treasure fishing in Tomb Floodway"
+                }
             ]
         },
         "U21": {
             "name": "Viper",
             "bazaarId": "SHARD_VIPER",
             "attributeName": "Hunter's Fang",
+            "effectDescription": "Hunting axes gain {{effect}}% more stats from the weapons they hold",
+            "effectMax": 10,
+            "effectTags": [
+                "hunter"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -846,7 +1215,10 @@
                 "serpent"
             ],
             "sources": [
-                "Kiara's Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Kiara's shop"
+                }
             ],
             "specialFuses": [
                 {
@@ -868,6 +1240,8 @@
             "name": "Praying Mantis",
             "bazaarId": "SHARD_PRAYING_MANTIS",
             "attributeName": "Insect Power",
+            "effectDescription": "Vacuum deals {{effect}}% more damage",
+            "effectMax": 50,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -893,17 +1267,27 @@
             "name": "Zombie Soldier",
             "bazaarId": "SHARD_ZOMBIE_SOLDIER",
             "attributeName": "Undead Ruler",
+            "effectDescription": "Deal {{effect}}% more damage to undead monsters",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Zombie Soldiers"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Zombie Soldiers"
+                }
             ]
         },
         "U25": {
             "name": "Bambuleaf",
             "bazaarId": "SHARD_BAMBULEAF",
             "attributeName": "Strong Arms",
+            "effectDescription": "Axe gains {{effect}} more sweep on throws",
+            "effectMax": 30,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -911,62 +1295,102 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Pandas",
-                "Traps in Panda Zone"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Hunt Pandas in spring or summer"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Tranquility Sanctum in spring or summer"
+                }
             ]
         },
         "U27": {
             "name": "Sycophant",
             "bazaarId": "SHARD_SYCOPHANT",
             "attributeName": "Life Recovery",
+            "effectDescription": "Heal for {{effect}}% of max health every time you kill a mob",
+            "effectMax": 1,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Revenant Sycophants"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Revenant Sycophants"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Revenant Sycophants"
+                }
             ]
         },
         "U28": {
             "name": "Seagull",
             "bazaarId": "SHARD_SEAGULL",
             "attributeName": "Mangrove Collector",
+            "effectDescription": "+{{effect}} mangrove fortune for every digit in your mangrove log collection (max 10M collection)",
+            "effectMax": 10,
             "category": "forest",
             "skill": "foraging",
             "families": [
                 "bird"
             ],
             "sources": [
-                "Craft"
+                {
+                    "sourceType": "craft",
+                    "sourceDesc": "Unlocked from mangrove collection 6"
+                }
             ]
         },
         "U29": {
             "name": "Ent",
             "bazaarId": "SHARD_ENT",
             "attributeName": "Spirit Axe",
+            "effectDescription": "Axes deal {{effect}}% more damage to creatures on Galatea",
+            "effectMax": 20,
             "category": "water",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Ents",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Ents"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Ents"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }
             ]
         },
         "U30": {
             "name": "Soul of the Alpha",
             "bazaarId": "SHARD_SOUL_OF_THE_ALPHA",
             "attributeName": "Combo",
+            "effectDescription": "Deal {{effect}}% more damage per grandma wolf combo count (max 50)",
+            "effectMax": 1,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Souls of the Alpha",
-                "Traps in Howling Cave"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Souls of the Alpha"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Souls of the Alpha"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Howling Cave"
+                }
             ]
         },
         "U31": {
             "name": "Mochibear",
             "bazaarId": "SHARD_MOCHIBEAR",
             "attributeName": "Strong Legs",
+            "effectDescription": "Axe gains {{effect}} more sweep in melee",
+            "effectMax": 30,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -974,37 +1398,68 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Pandas",
-                "Traps in Panda Zone"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Hunt Pandas in autumn or winter"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Tranquility Sanctum in autumn or winter"
+                }
             ]
         },
         "U32": {
             "name": "Magma Slug",
             "bazaarId": "SHARD_MAGMA_SLUG",
             "attributeName": "Infection",
+            "effectDescription": "+{{effect}}% chance to catch corrupted sea creatures",
+            "effectMax": 2,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Magma Slugs",
-                "Traps in Lava"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Magma Slugs"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Magma Slugs"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Crimson Isle under lava"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "U33": {
             "name": "Flaming Spider",
             "bazaarId": "SHARD_FLAMING_SPIDER",
             "attributeName": "Arthropod Ruler",
+            "effectDescription": "Deal {{effect}}% more damage to spiders",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Flaming Spiders"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Flaming Spiders"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Flaming Spiders"
+                }
             ]
         },
         "U34": {
             "name": "Kiwi",
             "bazaarId": "SHARD_KIWI",
             "attributeName": "Kat's Favorite",
+            "effectDescription": "Kat takes {{effect}}% less time to upgrade a pet",
+            "effectMax": 10,
             "category": "forest",
             "skill": "taming",
             "families": [
@@ -1030,17 +1485,33 @@
             "name": "Bruiser",
             "bazaarId": "SHARD_BRUISER",
             "attributeName": "Ender Ruler",
+            "effectDescription": "Deal {{effect}}% more damage to ender creatures",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Zealot Bruisers"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Zealot Bruisers"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Zealot Bruisers"
+                }
             ]
         },
         "U38": {
             "name": "Stridersurfer",
             "bazaarId": "SHARD_STRIDER_SURFER",
             "attributeName": "Magmatic Ruler",
+            "effectDescription": "Deal {{effect}}% more damage to lava sea creatures",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "water",
             "skill": "combat",
             "families": [
@@ -1048,14 +1519,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Stridersurfers",
-                "Traps in Stridersurfer Area"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Stridersurfers"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Stridersurfers"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Stride-Ember Fissure"
+                }
             ]
         },
         "U39": {
             "name": "Rana",
             "bazaarId": "SHARD_RANA",
             "attributeName": "Battle Frog",
+            "effectDescription": "Frog pet gains {{effect}} strength",
+            "effectMax": 30,
             "category": "combat",
             "skill": "taming",
             "families": [
@@ -1082,6 +1563,8 @@
             "name": "Termite",
             "bazaarId": "SHARD_TERMITE",
             "attributeName": "Infiltration",
+            "effectDescription": "+{{effect}} farming fortune if your current garden plot has a pest in it",
+            "effectMax": 30,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -1107,6 +1590,11 @@
             "name": "Sylvan",
             "bazaarId": "SHARD_SYLVAN",
             "attributeName": "Forest Elemental",
+            "effectDescription": "+{{effect}} health",
+            "effectMax": 20,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -1135,6 +1623,11 @@
             "name": "Cascade",
             "bazaarId": "SHARD_CASCADE",
             "attributeName": "Torrent Elemental",
+            "effectDescription": "+{{effect}} intelligence",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "water",
             "skill": "global",
             "families": [
@@ -1163,6 +1656,11 @@
             "name": "Bolt",
             "bazaarId": "SHARD_BOLT",
             "attributeName": "Lightning Elemental",
+            "effectDescription": "+{{effect}} strength",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -1191,6 +1689,8 @@
             "name": "Bambloom",
             "bazaarId": "SHARD_BAMBLOOM",
             "attributeName": "Animal Expertise",
+            "effectDescription": "+{{effect}} foraging fortune",
+            "effectMax": 100,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -1216,6 +1716,8 @@
             "name": "Toad",
             "bazaarId": "SHARD_TOAD",
             "attributeName": "Frog Legs",
+            "effectDescription": "Frogs have a {{effect}}% chance to jump one less time",
+            "effectMax": 100,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -1245,17 +1747,31 @@
             "name": "Glacite Walker",
             "bazaarId": "SHARD_GLACITE_WALKER",
             "attributeName": "Essence of Ice",
+            "effectDescription": "Gain {{effect}}% more ice essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Glacite Walkers"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Glacite Walkers"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Glacite Walkers"
+                }
             ]
         },
         "R7": {
             "name": "Beaconmite",
             "bazaarId": "SHARD_BEACONMITE",
             "attributeName": "Beacon Zealot",
+            "effectDescription": "The effects of beacons are {{effect}}% stronger on you. {{effect2}}% chance to find signal enhancers in tree gifts",
+            "effectMax": 100,
+            "effect2Max": 1,
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -1263,13 +1779,18 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Beacon Tuning"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Beacon tuning"
+                }
             ]
         },
         "R8": {
             "name": "Lizard King",
             "bazaarId": "SHARD_LIZARD_KING",
             "attributeName": "Great Karma",
+            "effectDescription": "+{{effect}} hunter fortune toward rare attributes",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -1299,6 +1820,11 @@
             "name": "Python",
             "bazaarId": "SHARD_PYTHON",
             "attributeName": "Hunter's Pressure",
+            "effectDescription": "Black holes capture creatures {{effect}}% faster",
+            "effectMax": 20,
+            "effectTags": [
+                "hunter"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -1328,6 +1854,8 @@
             "name": "Invisibug",
             "bazaarId": "SHARD_INVISIBUG",
             "attributeName": "Fancy Visit",
+            "effectDescription": "Rare and above garden visitors have a {{effect}}% higher chance to arrive",
+            "effectMax": 10,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -1335,14 +1863,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Invisibugs",
-                "Traps on Land"
+                {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Invisibugs"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on land"
+                }
             ]
         },
         "R11": {
             "name": "Piranha",
             "bazaarId": "SHARD_PIRANHA",
             "attributeName": "Moonglade Serendipity",
+            "effectDescription": "Increases odds of finding rare items in tree gifts at moonglade marsh by {{effect}}%",
+            "effectMax": 20,
             "category": "water",
             "skill": "global",
             "families": [
@@ -1350,14 +1885,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Traps in Murkwater",
-                "Treasure Fishing in Moonglade Marsh"
+                {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing in Moonglade Marsh"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Murkwater Shallows under water"
+                }
             ]
         },
         "R13": {
             "name": "Hideongeon",
             "bazaarId": "SHARD_HIDEONGEON",
             "attributeName": "Catacombs Box",
+            "effectDescription": "Increases quality of boss rewards in the catacombs by {{effect}}",
+            "effectMax": 10,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -1383,6 +1928,8 @@
             "name": "Lapis Skeleton",
             "bazaarId": "SHARD_LAPIS_SKELETON",
             "attributeName": "Bone Font",
+            "effectDescription": "+{{effect}}% extra chance of finding level 6 books or higher in superpairs",
+            "effectMax": 20,
             "category": "combat",
             "skill": "enchanting",
             "families": [
@@ -1408,6 +1955,8 @@
             "name": "Cropeetle",
             "bazaarId": "SHARD_CROPEETLE",
             "attributeName": "Crop Bug",
+            "effectDescription": "Increases the odds of finding cropie, squash, or fermento by {{effect}}%",
+            "effectMax": 20,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -1434,29 +1983,58 @@
             "name": "Drowned",
             "bazaarId": "SHARD_DROWNED",
             "attributeName": "Humanoid Ruler",
+            "effectDescription": "Deal {{effect}}% more damage to humanoid creatures",
+            "effectMax": 30,
+            "effectTags": [
+                "ruler"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Drowned",
-                "Traps in Drowned Area"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Seacurses, Hydrospears, and Tidetots"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Seacurses, Hydrospears, and Tidetots"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Drowned Reliquary"
+                }
             ]
         },
         "R21": {
             "name": "Star Sentry",
             "bazaarId": "SHARD_STAR_SENTRY",
             "attributeName": "Atomized Mithril",
+            "effectDescription": "Gain {{effect}}% extra mithril powder",
+            "effectMax": 10,
+            "effectTags": [
+                "atomized"
+            ],
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Star Sentries"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Star Sentries"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Star Sentries"
+                }
             ]
         },
         "R22": {
             "name": "Hideondra",
             "bazaarId": "SHARD_HIDEONDRA",
             "attributeName": "Kuudra's Box",
+            "effectDescription": "{{effect}}% chance to have extra Kuudra teeth in the paid reward chest",
+            "effectMax": 50,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -1482,6 +2060,8 @@
             "name": "Abyssal Lanternfish",
             "bazaarId": "SHARD_ABYSSAL_LANTERN",
             "attributeName": "Dwarven Serendipity",
+            "effectDescription": "+{{effect}}% chance to find golden and diamond goblins",
+            "effectMax": 100,
             "category": "water",
             "skill": "global",
             "families": [
@@ -1489,14 +2069,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Treasure Fishing in Dwarven Mines",
-                "Traps in Dwarven Mines"
+                {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing in Dwarven Mines"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Dwarven Mines under water"
+                }
             ]
         },
         "R24": {
             "name": "Arachne",
             "bazaarId": "SHARD_ARACHNE",
             "attributeName": "Essence of Arthropods",
+            "effectDescription": "Gain {{effect}}% more spider essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -1504,37 +2094,55 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Arachne with Salts"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Arachne"
+                }
             ]
         },
         "R25": {
             "name": "Bitbug",
             "bazaarId": "SHARD_BITBUG",
             "attributeName": "Cookie Eater",
+            "effectDescription": "Gain {{effect}}% of your booster cookie bits up front",
+            "effectMax": 50,
             "category": "forest",
             "skill": "global",
             "families": [
                 "bug"
             ],
             "sources": [
-                "Bits Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Bits shop"
+                }
             ]
         },
         "R27": {
             "name": "Revenant",
             "bazaarId": "SHARD_REVENANT",
             "attributeName": "Essence of Unliving",
+            "effectDescription": "Gain {{effect}}% more undead essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Revenant Horror"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Dropped by Revenant Horror"
+                }
             ]
         },
         "R29": {
             "name": "Silentdepth",
             "bazaarId": "SHARD_SILENTDEPTH",
             "attributeName": "Crystal Serendipity",
+            "effectDescription": "{{effect}}% chance to double any loot from crystal hollows treasure chests",
+            "effectMax": 20,
             "category": "water",
             "skill": "global",
             "families": [
@@ -1542,19 +2150,29 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Treasure Fish in Crystal Hollows",
-                "Traps in Crystal Hollows"
+                {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing in Crystal Hollows"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Crystal Hollows under water"
+                }
             ]
         },
         "R30": {
             "name": "Skeletor",
             "bazaarId": "SHARD_SKELETOR",
             "attributeName": "Deadeye",
+            "effectDescription": "Deal {{effect}}% more damage with ranged weapons",
+            "effectMax": 25,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Skeletor with Salts"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Skeletors"
+                }
             ],
             "specialFuses": [
                 {
@@ -1576,6 +2194,11 @@
             "name": "Thyst",
             "bazaarId": "SHARD_THYST",
             "attributeName": "Atomized Crystals",
+            "effectDescription": "Gain {{effect}}% extra gemstone powder",
+            "effectMax": 10,
+            "effectTags": [
+                "atomized"
+            ],
             "category": "combat",
             "skill": "combat",
             "families": [
@@ -1583,14 +2206,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Thysts",
-                "Traps in Crystal Hollows"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Thysts"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Thysts"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Crystal Hollows"
+                }
             ]
         },
         "R33": {
             "name": "Quartzfang",
             "bazaarId": "SHARD_QUARTZFANG",
             "attributeName": "Quartz Speed",
+            "effectDescription": "Mining speed from events is increased by {{effect}}%",
+            "effectMax": 100,
             "category": "combat",
             "skill": "mining",
             "families": [
@@ -1629,6 +2262,8 @@
             "name": "Hideonring",
             "bazaarId": "SHARD_HIDEONRING",
             "attributeName": "Accessory Size",
+            "effectDescription": "+{{effect}} more accessory bag slots",
+            "effectMax": 10,
             "category": "forest",
             "skill": "global",
             "families": [
@@ -1657,6 +2292,8 @@
             "name": "Snowfin",
             "bazaarId": "SHARD_SNOWFIN",
             "attributeName": "Winter's Serendipity",
+            "effectDescription": "Increases odds of finding rare items in winter gifts by {{effect}}%",
+            "effectMax": 20,
             "category": "water",
             "skill": "global",
             "families": [
@@ -1664,60 +2301,103 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Traps in Jerry's Workshop"
+                {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Jerry's Workshop under water"
+                }
             ]
         },
         "R36": {
             "name": "Kada Knight",
             "bazaarId": "SHARD_KADA_KNIGHT",
             "attributeName": "Lifeline",
+            "effectDescription": "When under 20% maximum HP, increase damage and defense by {{effect}}%",
+            "effectMax": 25,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Kada Knights",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Kada Knights"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Kada Knights"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "R38": {
             "name": "Carrot King",
             "bazaarId": "SHARD_CARROT_KING",
             "attributeName": "Rabbit Crew",
+            "effectDescription": "Chocolate factory gains +{{effect}} chocolate per second",
+            "effectMax": 20,
             "category": "water",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Carrot King"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Carrot Kings"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Carrot Kings"
+                }
             ]
         },
         "R39": {
             "name": "Wither Specter",
             "bazaarId": "SHARD_WITHER_SPECTER",
             "attributeName": "Breeze",
+            "effectDescription": "When you haven't been damaged in the last 5 seconds, decrease mana costs by {{effect}}%",
+            "effectMax": 10,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Wither Specters",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Wither Specters"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Wither Specters"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "R42": {
             "name": "Matcho",
             "bazaarId": "SHARD_MATCHO",
             "attributeName": "Ignition",
+            "effectDescription": "Increase duration of fire damage inflicted upon enemies by {{effect}}%",
+            "effectMax": 300,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Matchos",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Matchos"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Matchos"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "R43": {
             "name": "Ladybug",
             "bazaarId": "SHARD_LADYBUG",
             "attributeName": "Pretty Clothes",
+            "effectDescription": "{{effect}}% more copper from garden visitors",
+            "effectMax": 10,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -1743,6 +2423,8 @@
             "name": "Lumisquid",
             "bazaarId": "SHARD_LUMISQUID",
             "attributeName": "Extreme Pressure",
+            "effectDescription": "+{{effect}} pressure resistance",
+            "effectMax": 50,
             "category": "water",
             "skill": "global",
             "families": [
@@ -1750,14 +2432,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Lumisquids",
-                "Traps in Squid Cave"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Lumisquids"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Squid Cave"
+                }
             ]
         },
         "R45": {
             "name": "Crocodile",
             "bazaarId": "SHARD_CROCODILE",
             "attributeName": "Pure Reptile",
+            "effectDescription": "{{effect}}% chance to double shards from a reptile fusion",
+            "effectMax": 20,
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -1765,13 +2454,18 @@
                 "reptile"
             ],
             "sources": [
-                "Kiara's Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Kiara's Shop"
+                }
             ]
         },
         "R46": {
             "name": "Bullfrog",
             "bazaarId": "SHARD_BULLFROG",
             "attributeName": "Berry Enjoyer",
+            "effectDescription": "Berries have a {{effect}}% chance to grant double points for starlyn contests",
+            "effectMax": 100,
             "category": "water",
             "skill": "foraging",
             "families": [
@@ -1801,6 +2495,11 @@
             "name": "Dreadwing",
             "bazaarId": "SHARD_DREADWING",
             "attributeName": "Essence of the Forest",
+            "effectDescription": "Gain {{effect}}% more forest essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -1808,8 +2507,19 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Dreadwings",
-                "Traps on Land"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Dreadwings"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Dreadwings"
+                }, {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Dreadwings"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Galatea on Land"
+                }
             ],
             "specialFuses": [
                 {
@@ -1832,18 +2542,30 @@
             "name": "Joydive",
             "bazaarId": "SHARD_JOYDIVE",
             "attributeName": "Deep Diving",
+            "effectDescription": "+{{effect}} respiration",
+            "effectMax": 50,
             "category": "water",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Joydives",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Joydives"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths under water"
+                }
             ]
         },
         "R51": {
             "name": "Stalagmight",
             "bazaarId": "SHARD_STALAGMIGHT",
             "attributeName": "Atomized Glacite",
+            "effectDescription": "Gain {{effect}}% extra glacite powder",
+            "effectMax": 10,
+            "effectTags": [
+                "atomized"
+            ],
             "category": "combat",
             "skill": "combat",
             "families": [
@@ -1882,6 +2604,8 @@
             "name": "Fungloom",
             "bazaarId": "SHARD_FUNGLOOM",
             "attributeName": "Fungy Luck",
+            "effectDescription": "{{effect}}% chance to gain an additional chisel charge when excavating fossils",
+            "effectMax": 100,
             "category": "forest",
             "skill": "combat",
             "families": [
@@ -1911,6 +2635,8 @@
             "name": "Eel",
             "bazaarId": "SHARD_EEL",
             "attributeName": "Eelastic",
+            "effectDescription": "Increase fishing net pull by {{effect}}",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -1919,14 +2645,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Kiara's Shop",
-                "Treasure Fishing in Moonglade Marsh"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Kiara's Shop"
+                }, {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing in Moonglade Marsh"
+                }
             ]
         },
         "R54": {
             "name": "King Cobra",
             "bazaarId": "SHARD_KING_COBRA",
             "attributeName": "Hunter's Grasp",
+            "effectDescription": "Black holes gain {{effect}}% hunter fortune",
+            "effectMax": 10,
+            "effectTags": [
+                "hunter"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -1956,18 +2692,36 @@
             "name": "Lava Flame",
             "bazaarId": "SHARD_LAVA_FLAME",
             "attributeName": "Blazing Fortune",
+            "effectDescription": "+{{effect}} magic find on lava sea creatures",
+            "effectMax": 10,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Lava Flames",
-                "Traps in Lava"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Lava Flames"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Lava Flames"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Crimson Isle under lava"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "R57": {
             "name": "Draconic",
             "bazaarId": "SHARD_DRACONIC",
             "attributeName": "Essence of Dragons",
+            "effectDescription": "Gain {{effect}}% more dragon essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -1975,13 +2729,18 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Dragons"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Dropped by dragons"
+                }
             ]
         },
         "R58": {
             "name": "Falcon",
             "bazaarId": "SHARD_FALCON",
             "attributeName": "Battle Experience",
+            "effectDescription": "Pets gain {{effect}}% more exp from combat",
+            "effectMax": 10,
             "category": "forest",
             "skill": "taming",
             "families": [
@@ -2007,6 +2766,8 @@
             "name": "Inferno Koi",
             "bazaarId": "SHARD_INFERNO_KOI",
             "attributeName": "Crimson Serendipity",
+            "effectDescription": "+{{effect}}% chance to find a vanquisher",
+            "effectMax": 20,
             "category": "water",
             "skill": "global",
             "families": [
@@ -2014,14 +2775,24 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Traps in Lava",
-                "Treasure Fishing in Crimson Isle"
+                {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing in Crimson Isle"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Crimson Isle under water"
+                }
             ]
         },
         "R60": {
             "name": "Wither",
             "bazaarId": "SHARD_WITHER",
             "attributeName": "Essence of Wither",
+            "effectDescription": "Gain {{effect}}% more wither essence",
+            "effectMax": 10,
+            "effectTags": [
+                "essence"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -2029,13 +2800,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Catacombs Floor 7"
+                {
+                    "sourceType": "dungeons",
+                    "sourceDesc": "Catacombs floor 7 and master floor 7"
+                }
             ]
         },
         "R61": {
             "name": "Gecko",
             "bazaarId": "SHARD_GECKO",
             "attributeName": "Echo of Sharpening",
+            "effectDescription": "\"Sharpening\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "forest",
             "skill": "hunting",
             "families": [
@@ -2043,13 +2822,21 @@
                 "scaled"
             ],
             "sources": [
-                "Kiara's Shop"
+                {
+                    "sourceType": "shop",
+                    "sourceDesc": "Kiara's Shop"
+                }
             ]
         },
         "E1": {
             "name": "Terra",
             "bazaarId": "SHARD_TERRA",
             "attributeName": "Earth Elemental",
+            "effectDescription": "+{{effect}} health",
+            "effectMax": 20,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -2078,6 +2865,11 @@
             "name": "Cryo",
             "bazaarId": "SHARD_CRYO",
             "attributeName": "Frost Elemental",
+            "effectDescription": "+{{effect}} intelligence",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "water",
             "skill": "global",
             "families": [
@@ -2106,6 +2898,11 @@
             "name": "Aero",
             "bazaarId": "SHARD_AERO",
             "attributeName": "Wind Elemental",
+            "effectDescription": "+{{effect}} strength",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -2134,6 +2931,11 @@
             "name": "Pandarai",
             "bazaarId": "SHARD_PANDARAI",
             "attributeName": "Foraging Wisdom",
+            "effectDescription": "+{{effect}} foraging wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "forest",
             "skill": "foraging",
             "families": [
@@ -2159,6 +2961,8 @@
             "name": "Leviathan",
             "bazaarId": "SHARD_LEVIATHAN",
             "attributeName": "Excellent Karma",
+            "effectDescription": "+{{effect}} hunter fortune toward epic attributes",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2188,6 +2992,11 @@
             "name": "Alligator",
             "bazaarId": "SHARD_ALLIGATOR",
             "attributeName": "Echo of Resistance",
+            "effectDescription": "\"Resistance\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -2217,6 +3026,8 @@
             "name": "Fenlord",
             "bazaarId": "SHARD_FENLORD",
             "attributeName": "Berry Mogul",
+            "effectDescription": "Salts last {{effect}}% longer",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2246,6 +3057,11 @@
             "name": "Basilisk",
             "bazaarId": "SHARD_BASILISK",
             "attributeName": "Hunter's Suppress",
+            "effectDescription": "Lassos deplete stamina {{effect}}% faster",
+            "effectMax": 20,
+            "effectTags": [
+                "hunter"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -2275,6 +3091,11 @@
             "name": "Iguana",
             "bazaarId": "SHARD_IGUANA",
             "attributeName": "Echo of Atomized",
+            "effectDescription": "\"Atomized\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "forest",
             "skill": "hunting",
             "families": [
@@ -2304,6 +3125,8 @@
             "name": "Moray Eel",
             "bazaarId": "SHARD_MORAY_EEL",
             "attributeName": "Lucky Rod",
+            "effectDescription": "Fish treasure shards are {{effect}}% easier to find",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2333,17 +3156,24 @@
             "name": "Thorn",
             "bazaarId": "SHARD_THORN",
             "attributeName": "Dominance",
+            "effectDescription": "Deal {{effect}}% more damage when at full health",
+            "effectMax": 15,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Catacombs Floor 4"
+                {
+                    "sourceType": "dungeons",
+                    "sourceDesc": "Catacombs floor 4"
+                }
             ]
         },
         "E13": {
             "name": "Lunar Moth",
             "bazaarId": "SHARD_LUNAR_MOTH",
             "attributeName": "Lunar Power",
+            "effectDescription": "+{{effect}} farming fortune during the night",
+            "effectMax": 50,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -2372,6 +3202,8 @@
             "name": "Fire Eel",
             "bazaarId": "SHARD_FIRE_EEL",
             "attributeName": "Trophy Hunter",
+            "effectDescription": "+{{effect}} trophy fish chance",
+            "effectMax": 20,
             "category": "water",
             "skill": "fishing",
             "families": [
@@ -2379,8 +3211,16 @@
                 "eel"
             ],
             "sources": [
-                "Hunt Fire Eels",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Fire Eels"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Fire Eels"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ],
             "specialFuses": [
                 {
@@ -2403,6 +3243,8 @@
             "name": "Bal",
             "bazaarId": "SHARD_BAL",
             "attributeName": "Deep Technique",
+            "effectDescription": "{{effect}}% chance to gain +1 pristine when mining gemstones",
+            "effectMax": 10,
             "category": "combat",
             "skill": "mining",
             "families": [
@@ -2410,13 +3252,18 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Bal"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Bal"
+                }
             ]
         },
         "E16": {
             "name": "Hideonsack",
             "bazaarId": "SHARD_HIDEONSACK",
             "attributeName": "Sack Size",
+            "effectDescription": "Sacks hold {{effect}}% more items",
+            "effectMax": 10,
             "category": "forest",
             "skill": "global",
             "families": [
@@ -2445,51 +3292,90 @@
             "name": "Water Hydra",
             "bazaarId": "SHARD_WATER_HYDRA",
             "attributeName": "Fishing Speed",
+            "effectDescription": "+{{effect}} fishing speed",
+            "effectMax": 30,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Water Hydra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Water Hydra"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Water Hydra"
+                }
             ]
         },
         "E18": {
             "name": "Flare",
             "bazaarId": "SHARD_FLARE",
             "attributeName": "Blazing",
+            "effectDescription": "Deal {{effect}}% more damage against mobs while in the crimson isle",
+            "effectMax": 30,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Flares",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Flares"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Flares"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "E20": {
             "name": "Sea Emperor",
             "bazaarId": "SHARD_SEA_EMPEROR",
             "attributeName": "Sea Wisdom",
+            "effectDescription": "+{{effect}} fishing wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Sea Emperor"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Loch Emperors"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Loch Emperors"
+                }
             ]
         },
         "E21": {
             "name": "Prince",
             "bazaarId": "SHARD_PRINCE",
             "attributeName": "Reborn",
+            "effectDescription": "Killing a prince has a {{effect}}% chance to add 1 bonus score to your dungeon run",
+            "effectMax": 100,
             "category": "combat",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Undead Prince in Catacombs"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Princes"
+                }
             ]
         },
         "E22": {
             "name": "Komodo Dragon",
             "bazaarId": "SHARD_KOMODO_DRAGON",
             "attributeName": "Echo of Essence",
+            "effectDescription": "\"Essence\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "forest",
             "skill": "hunting",
             "families": [
@@ -2519,17 +3405,24 @@
             "name": "Mimic",
             "bazaarId": "SHARD_MIMIC",
             "attributeName": "Faker",
+            "effectDescription": "Dungeon blessings are {{effect}}% stronger on you",
+            "effectMax": 10,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Mimics in Catacombs"
+                {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Mimics"
+                }
             ]
         },
         "E26": {
             "name": "Shellwise",
             "bazaarId": "SHARD_SHELLWISE",
             "attributeName": "Shell",
+            "effectDescription": "Gain {{effect}}% regular knockback resistance",
+            "effectMax": 100,
             "category": "water",
             "skill": "global",
             "families": [
@@ -2538,26 +3431,43 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Shellwise",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Shellwises"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths under water"
+                }
             ]
         },
         "E27": {
             "name": "Barbarian Duke X",
             "bazaarId": "SHARD_BARBARIAN_DUKE_X",
             "attributeName": "Warrior",
+            "effectDescription": "Deal {{effect}}% more melee damage",
+            "effectMax": 25,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Barbarian Duke X",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Barbarian Duke X"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Barbarian Duke X"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "E28": {
             "name": "Toucan",
             "bazaarId": "SHARD_TOUCAN",
             "attributeName": "Why Not More",
+            "effectDescription": "Exp share grants {{effect}}% more exp",
+            "effectMax": 10,
             "category": "forest",
             "skill": "taming",
             "families": [
@@ -2583,18 +3493,33 @@
             "name": "Hellwisp",
             "bazaarId": "SHARD_HELLWISP",
             "attributeName": "Matriarch Cubs",
+            "effectDescription": "{{effect}}% chance to get a second heavy pearl",
+            "effectMax": 20,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Hellwisps",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Hellwisps"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Hellwisps"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "E30": {
             "name": "Caiman",
             "bazaarId": "SHARD_CAIMAN",
             "attributeName": "Echo of Ruler",
+            "effectDescription": "\"Ruler\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -2624,6 +3549,8 @@
             "name": "Firefly",
             "bazaarId": "SHARD_FIREFLY",
             "attributeName": "Solar Power",
+            "effectDescription": "+{{effect}} farming fortune during the day",
+            "effectMax": 50,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -2655,6 +3582,11 @@
             "name": "Sea Serpent",
             "bazaarId": "SHARD_SEA_SERPENT",
             "attributeName": "Echo of Hunter",
+            "effectDescription": "\"Hunter\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2685,6 +3617,8 @@
             "name": "Ghost",
             "bazaarId": "SHARD_GHOST",
             "attributeName": "Veil",
+            "effectDescription": "+{{effect}} true defense",
+            "effectMax": 10,
             "category": "combat",
             "skill": "combat",
             "families": [
@@ -2692,25 +3626,52 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Ghosts"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Ghosts"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Ghosts"
+                }
             ]
         },
         "E34": {
             "name": "XYZ",
             "bazaarId": "SHARD_XYZ",
             "attributeName": "Mana Regeneration",
+            "effectDescription": "+{{effect}}% mana regeneration",
+            "effectMax": 10,
             "category": "forest",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt XYZ",
-                "Traps in Mystic Marsh"
+                {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt XYZs"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt XYZs"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Mystic Marsh"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }, {
+                    "sourceType": "other",
+                    "sourceDesc": "Atominzer"
+                }
             ]
         },
         "E35": {
             "name": "Leatherback",
             "bazaarId": "SHARD_LEATHERBACK",
             "attributeName": "Hunt Wisdom",
+            "effectDescription": "+{{effect}} hunting wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2740,6 +3701,11 @@
             "name": "Cavernshade",
             "bazaarId": "SHARD_CAVERNSHADE",
             "attributeName": "Cavern Wisdom",
+            "effectDescription": "+{{effect}} mining wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "combat",
             "skill": "mining",
             "families": [
@@ -2771,6 +3737,11 @@
             "name": "Dragonfly",
             "bazaarId": "SHARD_DRAGONFLY",
             "attributeName": "Garden Wisdom",
+            "effectDescription": "+{{effect}} farming wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -2796,6 +3767,11 @@
             "name": "Tenebris",
             "bazaarId": "SHARD_TENEBRIS",
             "attributeName": "Shadow Elemental",
+            "effectDescription": "+{{effect}} health",
+            "effectMax": 20,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -2827,6 +3803,11 @@
             "name": "Blizzard",
             "bazaarId": "SHARD_BLIZZARD",
             "attributeName": "Snow Elemental",
+            "effectDescription": "+{{effect}} intelligence",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "water",
             "skill": "global",
             "families": [
@@ -2858,6 +3839,11 @@
             "name": "Tempest",
             "bazaarId": "SHARD_TEMPEST",
             "attributeName": "Storm Elemental",
+            "effectDescription": "+{{effect}} strength",
+            "effectMax": 10,
+            "effectTags": [
+                "elemental"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
@@ -2889,19 +3875,29 @@
             "name": "Chameleon",
             "bazaarId": "SHARD_CHAMELEON",
             "attributeName": "Reptiloid",
+            "effectDescription": "No effect; fusions with chameleon create next 3 incremental IDs",
+            "effectMax": 0,
             "category": "forest",
             "skill": "hunting",
             "families": [
                 "reptile"
             ],
             "sources": [
-                "Tree Gifts"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Fig and mangrove tree gifts"
+                }
             ]
         },
         "L6": {
             "name": "Tiamat",
             "bazaarId": "SHARD_TIAMAT",
             "attributeName": "Echo of Echoes",
+            "effectDescription": "\"Echo\" attributes are {{effect}}% stronger",
+            "effectTags": [
+                "echo"
+            ],
+            "effectMax": 50,
             "category": "combat",
             "skill": "hunting",
             "families": [
@@ -2930,6 +3926,11 @@
             "name": "Wyvern",
             "bazaarId": "SHARD_WYVERN",
             "attributeName": "Echo of Wisdom",
+            "effectDescription": "\"Wisdom\" attributes are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "forest",
             "skill": "hunting",
             "families": [
@@ -2959,6 +3960,8 @@
             "name": "Tortoise",
             "bazaarId": "SHARD_TORTOISE",
             "attributeName": "Cloak Improvement",
+            "effectDescription": "+{{effect}} true defense on David's cloak",
+            "effectMax": 10,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -2988,17 +3991,24 @@
             "name": "Endstone Protector",
             "bazaarId": "SHARD_ENDSTONE_PROTECTOR",
             "attributeName": "Paramount Fortitude",
+            "effectDescription": "+{{effect}}% defense",
+            "effectMax": 2,
             "category": "combat",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Endstone Protector"
+                {
+                    "sourceType": "other",
+                    "sourceDesc": "Endstone Protector drop"
+                }
             ]
         },
         "L11": {
             "name": "Naga",
             "bazaarId": "SHARD_NAGA",
             "attributeName": "Charmed",
+            "effectDescription": "+{{effect}}% chance to charm the shard of monsters you kill",
+            "effectMax": 0.5,
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -3028,6 +4038,11 @@
             "name": "Lapis Creeper",
             "bazaarId": "SHARD_LAPIS_CREEPER",
             "attributeName": "Book Wisdom",
+            "effectDescription": "+{{effect}} enchanting wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "combat",
             "skill": "combat",
             "specialFuses": [
@@ -3063,6 +4078,8 @@
             "name": "Wartybug",
             "bazaarId": "SHARD_WARTYBUG",
             "attributeName": "Wart Eater",
+            "effectDescription": "{{effect}}% chance to gain a warty when breaking nether wart",
+            "effectMax": 0.1,
             "category": "forest",
             "skill": "farming",
             "families": [
@@ -3088,18 +4105,27 @@
             "name": "Spike",
             "bazaarId": "SHARD_SPIKE",
             "attributeName": "Payback",
+            "effectDescription": "Deal {{effect}}% more damage after being hit",
+            "effectMax": 20,
             "category": "water",
             "skill": "foraging",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Spikes",
-                "Traps in Murkwater"
+                {
+                    "sourceType": "net",
+                    "sourceDesc": "Hunt Spikes"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Murkwater Depths or Kelpwoven Tunnels under water"
+                }
             ]
         },
         "L15": {
             "name": "Kraken",
             "bazaarId": "SHARD_KRAKEN",
             "attributeName": "Vitality",
+            "effectDescription": "+{{effect}} vitality",
+            "effectMax": 20,
             "category": "combat",
             "skill": "global",
             "families": [
@@ -3107,32 +4133,50 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Kuudra"
+                {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "L17": {
             "name": "Taurus",
             "bazaarId": "SHARD_TAURUS",
             "attributeName": "Maximal Torment",
+            "effectDescription": "+{{effect}}% intelligence",
+            "effectMax": 1,
             "category": "water",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Taurus",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Taurus"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Taurus"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "L18": {
             "name": "Daemon",
             "bazaarId": "SHARD_DAEMON",
             "attributeName": "Pity",
+            "effectDescription": "RNG meter fills {{effect}}% faster",
+            "effectMax": 10,
             "category": "combat",
             "skill": "global",
             "families": [
                 "demon"
             ],
             "sources": [
-                "Kuudra"
+                {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ],
             "specialFuses": [
                 {
@@ -3154,13 +4198,18 @@
             "name": "Moltenfish",
             "bazaarId": "SHARD_MOLTENFISH",
             "attributeName": "Star Bait",
+            "effectDescription": "{{effect}}% chance to fish a shinyfish",
+            "effectMax": 1,
             "category": "water",
             "skill": "global",
             "families": [
                 "demon"
             ],
             "sources": [
-                "Kuudra"
+                {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ],
             "specialFuses": [
                 {
@@ -3182,17 +4231,24 @@
             "name": "Shinyfish",
             "bazaarId": "SHARD_SHINYFISH",
             "attributeName": "Help From Above",
+            "effectDescription": "+{{effect}} health regen",
+            "effectMax": 12.5,
             "category": "water",
             "skill": "combat",
             "isBasicFuseTarget": true,
             "sources": [
-                "Treasure Fish with Star Bait Attribute"
+                {
+                    "sourceType": "treasureFishing",
+                    "sourceDesc": "Treasure fishing with Star Bait attribute active"
+                }
             ]
         },
         "L24": {
             "name": "Ananke",
             "bazaarId": "SHARD_ANANKE",
             "attributeName": "Wings of Destiny",
+            "effectDescription": "+{{effect}}% chance to find ananke feathers",
+            "effectMax": 20,
             "category": "combat",
             "skill": "global",
             "families": [
@@ -3200,7 +4256,10 @@
                 "demon"
             ],
             "sources": [
-                "Kuudra"
+                {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ],
             "specialFuses": [
                 {
@@ -3222,6 +4281,11 @@
             "name": "Hideonbox",
             "bazaarId": "SHARD_HIDEONBOX",
             "attributeName": "Tuning Box",
+            "effectDescription": "+{{effect}} tuning points",
+            "effectMax": 10,
+            "effectTags": [
+                "box"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -3250,18 +4314,30 @@
             "name": "Lord Jawbus",
             "bazaarId": "SHARD_LORD_JAWBUS",
             "attributeName": "Double Hook",
+            "effectDescription": "+{{effect}} double hook chance while on the crimson isle",
+            "effectMax": 5,
             "category": "water",
             "skill": "fishing",
             "isBasicFuseTarget": true,
             "sources": [
-                "Lord Jawbus",
-                "Kuudra"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Lords Jawbus"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Lords Jawbus"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }
             ]
         },
         "L27": {
             "name": "Burningsoul",
             "bazaarId": "SHARD_BURNINGSOUL",
             "attributeName": "Attack Speed",
+            "effectDescription": "+{{effect}} bonus attack speed",
+            "effectMax": 10,
             "category": "combat",
             "skill": "combat",
             "families": [
@@ -3269,25 +4345,52 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Burningsoul",
-                "Traps in smouldering tomb"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Burningsouls"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Burningsouls"
+                }, {
+                    "sourceType": "trap",
+                    "sourceDesc": "Traps in Smoldering Tomb"
+                }
             ]
         },
         "L28": {
             "name": "Cinderbat",
             "bazaarId": "SHARD_CINDER_BAT",
             "attributeName": "Magic Find",
+            "effectDescription": "+{{effect}} magic find",
+            "effectMax": 5,
             "category": "forest",
             "skill": "global",
             "isBasicFuseTarget": true,
             "sources": [
-                "Hunt Cinderbats"
+                {
+                    "sourceType": "blackHole",
+                    "sourceDesc": "Hunt Cinderbats"
+                }, {
+                    "sourceType": "salt",
+                    "sourceDesc": "Hunt Cinderbats"
+                }, {
+                    "sourceType": "kuudra",
+                    "sourceDesc": "Kuudra"
+                }, {
+                    "sourceType": "lasso",
+                    "sourceDesc": "Hunt Cinderbats"
+                }
             ]
         },
         "L29": {
             "name": "Megalith",
             "bazaarId": "SHARD_MEGALITH",
             "attributeName": "Hunter's Karma",
+            "effectDescription": "+{{effect}} hunter fortune",
+            "effectMax": 10,
+            "effectTags": [
+                "hunter"
+            ],
             "category": "water",
             "skill": "hunting",
             "families": [
@@ -3317,6 +4420,8 @@
             "name": "Power Dragon",
             "bazaarId": "SHARD_POWER_DRAGON",
             "attributeName": "Elite",
+            "effectDescription": "Deal {{effect}}% more damage to bosses and minibosses",
+            "effectMax": 30,
             "category": "combat",
             "skill": "taming",
             "families": [
@@ -3324,13 +4429,21 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Catacombs Master Floor 7"
+                {
+                    "sourceType": "dungeons",
+                    "sourceDesc": "Catacombs master floor 7"
+                }
             ]
         },
         "L31": {
             "name": "Condor",
             "bazaarId": "SHARD_CONDOR",
             "attributeName": "Pet Wisdom",
+            "effectDescription": "+{{effect}} taming wisdom",
+            "effectMax": 5,
+            "effectTags": [
+                "wisdom"
+            ],
             "category": "forest",
             "skill": "global",
             "families": [
@@ -3356,6 +4469,8 @@
             "name": "Sun Fish",
             "bazaarId": "SHARD_SUN_FISH",
             "attributeName": "Starborn",
+            "effectDescription": "Starborn temple effects are {{effect}}% stronger on you",
+            "effectMax": 10,
             "category": "water",
             "skill": "combat",
             "specialFuses": [
@@ -3378,6 +4493,8 @@
             "name": "Apex Dragon",
             "bazaarId": "SHARD_APEX_DRAGON",
             "attributeName": "Veteran",
+            "effectDescription": "+{{effect}} combat wisdom",
+            "effectMax": 10,
             "category": "combat",
             "skill": "taming",
             "families": [
@@ -3385,7 +4502,10 @@
             ],
             "isBasicFuseTarget": true,
             "sources": [
-                "Catacombs Master Floor 7"
+                {
+                    "sourceType": "dungeons",
+                    "sourceDesc": "Catacombs master floor 7"
+                }
             ],
             "specialFuses": [
                 {
@@ -3407,6 +4527,8 @@
             "name": "Dodo",
             "bazaarId": "SHARD_DODO",
             "attributeName": "Rare Bird",
+            "effectDescription": "+{{effect}} pet luck",
+            "effectMax": 10,
             "category": "forest",
             "skill": "global",
             "families": [
@@ -3432,6 +4554,8 @@
             "name": "Jormung",
             "bazaarId": "SHARD_JORMUNG",
             "attributeName": "Unlimited Power",
+            "effectDescription": "+{{effect}}% strength",
+            "effectMax": 1,
             "category": "combat",
             "skill": "global",
             "families": [
@@ -3458,6 +4582,8 @@
             "name": "Etherdrake",
             "bazaarId": "SHARD_ETHERDRAKE",
             "attributeName": "Unlimited Energy",
+            "effectDescription": "+{{effect}}% crit damage",
+            "effectMax": 1,
             "category": "combat",
             "skill": "global",
             "families": [
@@ -3484,6 +4610,8 @@
             "name": "Galaxy Fish",
             "bazaarId": "SHARD_GALAXY_FISH",
             "attributeName": "Ultimate DNA",
+            "effectDescription": "+{{effect}} mining fortune, farming fortune, and foraging fortune",
+            "effectMax": 10,
             "category": "water",
             "skill": "global",
             "specialFuses": [
@@ -3506,6 +4634,8 @@
             "name": "Molthorn",
             "bazaarId": "SHARD_MOLTHORN",
             "attributeName": "Almighty",
+            "effectDescription": "\"Unlimited\" attributes are {{effect}}% stronger",
+            "effectMax": 50,
             "category": "combat",
             "skill": "global",
             "families": [
@@ -3532,6 +4662,11 @@
             "name": "Starborn",
             "bazaarId": "SHARD_STARBORN",
             "attributeName": "Echo of Elemental",
+            "effectDescription": "Attributes from shards in the elemental family are {{effect}}% stronger",
+            "effectMax": 20,
+            "effectTags": [
+                "echo"
+            ],
             "category": "combat",
             "skill": "global",
             "families": [
