@@ -34,6 +34,7 @@ export interface ShardView {
   basicFuseTarget: string;
   chameleonTargets: string[];
   valuatedFuses: ValuatedFuseResult[];
+  costToMax: number;
 }
 
 function getShardView(id: string, calc: ShardCalc): ShardView {
@@ -60,8 +61,9 @@ function getShardView(id: string, calc: ShardCalc): ShardView {
     specialFusesDesc: shard.specialFusesDesc,
     basicFuseTarget: shard.basicFuseTarget,
     chameleonTargets: shard.chameleonTargets,
-    valuatedFuses: calc.valuatedFusesByTarget[id] || []
-  }
+    valuatedFuses: calc.valuatedFusesByTarget[id] || [],
+    costToMax: calc.db.costToMax[shard.rarity] || 0,
+  };
 }
 
 export interface ShardGroup {
@@ -77,12 +79,18 @@ function compareShardGroup(a: ShardGroup, b: ShardGroup): number {
 
 function rarityValue(rarity: string): number {
   switch (rarity) {
-    case "common": return 1;
-    case "uncommon": return 2;
-    case "rare": return 3;
-    case "epic": return 4;
-    case "legendary": return 5;
-    default: return 0;
+    case "common":
+      return 1;
+    case "uncommon":
+      return 2;
+    case "rare":
+      return 3;
+    case "epic":
+      return 4;
+    case "legendary":
+      return 5;
+    default:
+      return 0;
   }
 }
 
@@ -105,50 +113,62 @@ export function getShardViewModel(): ShardViewModel {
     ...calc.db.rarityGroups["uncommon"],
     ...calc.db.rarityGroups["rare"],
     ...calc.db.rarityGroups["epic"],
-    ...calc.db.rarityGroups["legendary"]
+    ...calc.db.rarityGroups["legendary"],
   ];
 
-  const familyGroups: ShardGroup[] = Object.entries(calc.db.familyGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(compareShardGroup);
+  const familyGroups: ShardGroup[] = Object.entries(calc.db.familyGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(compareShardGroup);
 
-  const categoryGroups: ShardGroup[] = Object.entries(calc.db.categoryGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(compareShardGroup);
+  const categoryGroups: ShardGroup[] = Object.entries(calc.db.categoryGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(compareShardGroup);
 
-  const skillGroups: ShardGroup[] = Object.entries(calc.db.skillGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(compareShardGroup);
+  const skillGroups: ShardGroup[] = Object.entries(calc.db.skillGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(compareShardGroup);
 
-  const tagGroups: ShardGroup[] = Object.entries(calc.db.tagGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(compareShardGroup);
+  const tagGroups: ShardGroup[] = Object.entries(calc.db.tagGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(compareShardGroup);
 
-  const sourceTypeGroups: ShardGroup[] = Object.entries(calc.db.sourceTypeGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(function(a, b) {
-    let sortVal = 0;
-    if (a.groupName < b.groupName) sortVal = -1;
-    if (a.groupName > b.groupName) sortVal = 1;
+  const sourceTypeGroups: ShardGroup[] = Object.entries(calc.db.sourceTypeGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(function (a, b) {
+      let sortVal = 0;
+      if (a.groupName < b.groupName) sortVal = -1;
+      if (a.groupName > b.groupName) sortVal = 1;
 
-    // Put fusionOnly at the top
-    if (a.groupName === "fusionOnly") sortVal -= 1000;
-    if (b.groupName === "fusionOnly") sortVal += 1000;
+      // Put fusionOnly at the top
+      if (a.groupName === "fusionOnly") sortVal -= 1000;
+      if (b.groupName === "fusionOnly") sortVal += 1000;
 
-    return sortVal;
-  });
+      return sortVal;
+    });
 
-  const rarityGroups: ShardGroup[] = Object.entries(calc.db.rarityGroups).map(([name, ids]) => ({
-    groupName: name,
-    shardIds: ids
-  })).sort(function(a, b) {
-    return rarityValue(a.groupName) - rarityValue(b.groupName);
-  });
+  const rarityGroups: ShardGroup[] = Object.entries(calc.db.rarityGroups)
+    .map(([name, ids]) => ({
+      groupName: name,
+      shardIds: ids,
+    }))
+    .sort(function (a, b) {
+      return rarityValue(a.groupName) - rarityValue(b.groupName);
+    });
 
   return {
     shardIds: shardIds,
@@ -159,6 +179,6 @@ export function getShardViewModel(): ShardViewModel {
     sourceTypeGroups: sourceTypeGroups,
     rarityGroups: rarityGroups,
     requirementIds: calc.db.specialRequirementList,
-    getShard: (shardId: string) => getShardView(shardId, calc)
+    getShard: (shardId: string) => getShardView(shardId, calc),
   };
 }

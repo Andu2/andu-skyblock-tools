@@ -12,11 +12,11 @@ export function ShardGroupTabContent(props: {
   return (
     <div class="shard-group">
       <h3>{capitalize(props.groupName)}</h3>
-      {props.shards.map(shard => (
-        <ShardOption 
-          shard={shard} 
-          isSelected={props.selectedShard === shard.id} 
-          onSelect={() => props.onSelect(shard.id)} 
+      {props.shards.map((shard) => (
+        <ShardOption
+          shard={shard}
+          isSelected={props.selectedShard === shard.id}
+          onSelect={() => props.onSelect(shard.id)}
         />
       ))}
     </div>

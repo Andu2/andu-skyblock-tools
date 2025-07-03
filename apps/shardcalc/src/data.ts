@@ -1,5 +1,5 @@
-import shardsProcessedJson from "../../../data/shards_processed.json"
-import priceDataJson from "../../../data/shard_prices.json"
+import shardsProcessedJson from "../../../data/shards_processed.json";
+import priceDataJson from "../../../data/shard_prices.json";
 
 interface FuseResult {
   type: string;
@@ -12,7 +12,7 @@ interface FuseCombination {
   cost1: number;
   shard2: string;
   cost2: number;
-  results: FuseResult[]
+  results: FuseResult[];
 }
 
 export interface Source {
@@ -22,7 +22,7 @@ export interface Source {
 
 export interface Shard {
   id: string;
-  bazaarId: string; 
+  bazaarId: string;
   name: string;
   rarity: string;
   number: number;
@@ -95,6 +95,6 @@ export function loadData(): ShardDatabase {
     specialRequirementList: shardsProcessed.specialRequirementList as string[],
     specialRequirementInfo: shardsProcessed.specialRequirementInfo as Record<string, RequirementInfo>,
     priceTimestamp: priceData.timestamp,
-    prices: priceData.shardPrices as Record<string, number>
-  }
+    prices: priceData.shardPrices as Record<string, number>,
+  };
 }

@@ -3,8 +3,10 @@ import type { ShardDatabase, RequirementInfo } from "./data";
 
 export interface ValuatedFuseResult {
   shard1: string;
+  shard1Cost: number;
   shard1Name: string;
   shard2: string;
+  shard2Cost: number;
   shard2Name: string;
   bazaarPricePerShard: number;
   dupeId: string; // Duplicates are allowed, but if they lead to the same results, we use this to de-dupe
@@ -25,13 +27,13 @@ function removeFuseDuplicates(options: ValuatedFuseResult[]) {
   for (let i = 0; i < options.length; i++) {
     if (options[i].dupeId === lastDupeId) {
       options.splice(i, 1);
-      options[i-1].swappable = true;
+      options[i - 1].swappable = true;
       i--; // Adjust index after removal
     } else {
       lastDupeId = options[i].dupeId;
       if (options[i].shard1 === options[i].shard2) {
         // Fuses with self are inherently swappable even though there is only one occurrence
-        options[i].swappable = true; 
+        options[i].swappable = true;
       }
     }
   }
@@ -41,12 +43,12 @@ function sortFusesByValue(options: ValuatedFuseResult[]) {
   options.sort((a, b) => a.bazaarPricePerShard - b.bazaarPricePerShard);
 }
 
-function calculateValuatedFusesByTarget(db: ShardDatabase): Record<string,ValuatedFuseResult[]> {
+function calculateValuatedFusesByTarget(db: ShardDatabase): Record<string, ValuatedFuseResult[]> {
   const fuseOptions: Record<string, ValuatedFuseResult[]> = {};
   for (const id in db.shards) {
     fuseOptions[id] = [];
   }
-  
+
   for (const id1 in db.shards) {
     const s1 = db.shards[id1];
     for (const id2 in s1.fuseCombinations) {
@@ -69,14 +71,16 @@ function calculateValuatedFusesByTarget(db: ShardDatabase): Record<string,Valuat
 
         fuseOptions[result.id].push({
           shard1: id1,
+          shard1Cost: combo.cost1,
           shard1Name: s1.name,
           shard2: id2,
+          shard2Cost: combo.cost2,
           shard2Name: s2.name,
           bazaarPricePerShard: (bazaarPrice1 * combo.cost1 + bazaarPrice2 * combo.cost2) / result.multiplier,
           dupeId: dupeId,
           swappable: false, // Will be calculated later
           fuseType: result.type,
-          multiplier: result.multiplier
+          multiplier: result.multiplier,
         });
       }
     }
@@ -139,6 +143,6 @@ export function getShardCalc(): ShardCalc {
 
   return {
     db: db,
-    valuatedFusesByTarget: valuatedFusesByTarget
-  }
+    valuatedFusesByTarget: valuatedFusesByTarget,
+  };
 }

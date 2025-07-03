@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal } from "solid-js";
 
 export interface HistoryControls {
   selectNewShard: (shardId: string) => void;
@@ -16,7 +16,7 @@ export function historyControls(props: {
 
   function selectNewShard(shardId: string) {
     if (shardId !== props.selectedShard) {
-      const newHistory = [...history().slice(0, historyIndex()+1), shardId]
+      const newHistory = [...history().slice(0, historyIndex() + 1), shardId];
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
       props.selectShard(shardId);
@@ -54,6 +54,6 @@ export function historyControls(props: {
     canGoBack,
     canGoForward,
     goBack,
-    goForward
-  }
+    goForward,
+  };
 }

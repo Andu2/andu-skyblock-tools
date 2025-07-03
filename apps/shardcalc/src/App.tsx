@@ -1,10 +1,11 @@
-import { createSignal } from 'solid-js'
-import { getShardViewModel } from './view'
-import { ShardSelect } from './ShardSelect'
-import { ShardDetails } from './ShardDetails'
-import { historyControls } from './history'
-import type { ShardView } from './view'
-import "./App.css"
+import { createSignal } from "solid-js";
+import { Router } from "@solidjs/router";
+import { getShardViewModel } from "./view";
+import { ShardSelect } from "./ShardSelect";
+import { ShardDetails } from "./ShardDetails";
+import { historyControls } from "./history";
+import type { ShardView } from "./view";
+import "./App.css";
 
 function App() {
   const vm = getShardViewModel();
@@ -19,24 +20,17 @@ function App() {
 
   const history = historyControls({
     selectedShard: selectedShard(),
-    selectShard
+    selectShard,
   });
 
   return (
-    <div id="app">
-      <ShardSelect 
-        vm={vm}
-        selectedShard={selectedShard()}
-        history={history}
-      />
-      { shardData() && (
-        <ShardDetails 
-          shard={shardData()!} 
-          history={history}
-        />
-      )}
-    </div>
-  )
+    <>
+      <div id="app">
+        <ShardSelect vm={vm} selectedShard={selectedShard()} history={history} />
+        {shardData() && <ShardDetails shard={shardData()!} history={history} />}
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;

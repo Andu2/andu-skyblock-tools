@@ -1886,7 +1886,7 @@
             "isBasicFuseTarget": true,
             "sources": [
                 {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing in Moonglade Marsh"
                 }, {
                     "sourceType": "trap",
@@ -2070,7 +2070,7 @@
             "isBasicFuseTarget": true,
             "sources": [
                 {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing in Dwarven Mines"
                 }, {
                     "sourceType": "trap",
@@ -2151,7 +2151,7 @@
             "isBasicFuseTarget": true,
             "sources": [
                 {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing in Crystal Hollows"
                 }, {
                     "sourceType": "trap",
@@ -2649,7 +2649,7 @@
                     "sourceType": "shop",
                     "sourceDesc": "Kiara's Shop"
                 }, {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing in Moonglade Marsh"
                 }
             ]
@@ -2776,7 +2776,7 @@
             "isBasicFuseTarget": true,
             "sources": [
                 {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing in Crimson Isle"
                 }, {
                     "sourceType": "trap",
@@ -4238,7 +4238,7 @@
             "isBasicFuseTarget": true,
             "sources": [
                 {
-                    "sourceType": "treasureFishing",
+                    "sourceType": "fishingTreasure",
                     "sourceDesc": "Treasure fishing with Star Bait attribute active"
                 }
             ]
