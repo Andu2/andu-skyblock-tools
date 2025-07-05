@@ -1,5 +1,5 @@
 import { getShardCalc } from "./calc";
-import type { ShardCalc, ValuatedFuseResult } from "./calc";
+import type { ShardCalc, ValuatedFuseResult, ShardContribution } from "./calc";
 import type { Source } from "./data";
 
 function getBazaarPrice(id: string, calc: ShardCalc): number {
@@ -35,6 +35,8 @@ export interface ShardView {
   chameleonTargets: string[];
   valuatedFuses: ValuatedFuseResult[];
   costToMax: number;
+  marginalContributionsToThis: ShardContribution[];
+  marginalContributionsToOthers: ShardContribution[];
 }
 
 function getShardView(id: string, calc: ShardCalc): ShardView {
@@ -63,6 +65,8 @@ function getShardView(id: string, calc: ShardCalc): ShardView {
     chameleonTargets: shard.chameleonTargets,
     valuatedFuses: calc.valuatedFusesByTarget[id] || [],
     costToMax: calc.db.costToMax[shard.rarity] || 0,
+    marginalContributionsToThis: calc.sortedContributionsByTarget[id] || [],
+    marginalContributionsToOthers: calc.sortedContributionsByComponent[id] || [],
   };
 }
 
@@ -94,6 +98,10 @@ function rarityValue(rarity: string): number {
   }
 }
 
+interface Stats {
+  totalPriceToMax: number;
+}
+
 export interface ShardViewModel {
   shardIds: string[];
   familyGroups: ShardGroup[];
@@ -103,6 +111,7 @@ export interface ShardViewModel {
   sourceTypeGroups: ShardGroup[];
   rarityGroups: ShardGroup[];
   requirementIds: string[];
+  stats: Stats;
   getShard: (shardId: string) => ShardView;
 }
 export function getShardViewModel(): ShardViewModel {
@@ -170,6 +179,10 @@ export function getShardViewModel(): ShardViewModel {
       return rarityValue(a.groupName) - rarityValue(b.groupName);
     });
 
+  const stats: Stats = {
+    totalPriceToMax: calc.totalPriceToMax,
+  };
+
   return {
     shardIds: shardIds,
     familyGroups: familyGroups,
@@ -179,6 +192,7 @@ export function getShardViewModel(): ShardViewModel {
     sourceTypeGroups: sourceTypeGroups,
     rarityGroups: rarityGroups,
     requirementIds: calc.db.specialRequirementList,
+    stats: stats,
     getShard: (shardId: string) => getShardView(shardId, calc),
   };
 }

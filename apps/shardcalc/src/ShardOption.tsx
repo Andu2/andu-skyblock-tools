@@ -1,25 +1,37 @@
 import type { ShardView } from "./view";
-import "./ShardOption.css";
+import { A } from "@solidjs/router";
 import { formatNumber } from "./format";
+import { getCoinStack, shardSmallImgPath } from "./assetPaths";
 
-export function ShardOption(props: { shard: ShardView; isSelected: boolean; onSelect: () => void }) {
+export function ShardOption(props: { shard: ShardView }) {
   const rarityClass = props.shard.rarity;
-  const optionClasses = ["shard-option", "row"];
-  if (props.isSelected) {
-    optionClasses.push("selected");
-  }
   return (
-    <div class={optionClasses.join(" ")} onClick={() => props.onSelect()}>
-      <div class="column">
-        <img class="shard-image" src="img/shard_placeholder.png" />
+    <A href={`/${props.shard.id}`} activeClass="active-shard-option">
+      <div class="shard-option row">
+        <div class="column">
+          <div class="row">
+            <div class="column">
+              <img class="shard-image" src={shardSmallImgPath(props.shard.id)} />
+            </div>
+            <div class="column">
+              <div class={["shard-name", rarityClass].join(" ")}>
+                {props.shard.id} {props.shard.name}
+              </div>
+              <div class="shard-attribute">{props.shard.attributeName}</div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="row">
+            <div class="column">
+              <span class="shard-price">{formatNumber(props.shard.bazaarPrice)}</span>
+            </div>
+            <div class="column coin-stack-wrap">
+              <img class="coin-stack" src={getCoinStack(props.shard.bazaarPrice)} />
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="column">
-        <span class={["shard-name", rarityClass].join(" ")}>
-          {props.shard.id} {props.shard.name}
-        </span>{" "}
-        ({props.shard.attributeName})
-      </div>
-      <div class="column">Buy price: {formatNumber(props.shard.bazaarPrice)}</div>
-    </div>
+    </A>
   );
 }

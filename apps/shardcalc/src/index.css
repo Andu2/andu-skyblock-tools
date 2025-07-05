@@ -1,26 +1,248 @@
+/* Reset & Base Styles */
 body {
   margin: 0;
   padding: 0;
   background-color: rgb(5, 45, 61);
   color: white;
+  font-family: sans-serif;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Layout Components */
+#app {
+  display: flex;
+  flex-direction: row;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45px;
+  background-color: #333;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  gap: 20px;
+  padding: 0 10px;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+.nav-link {
+  text-decoration: underline;
+  font-size: 1.2em;
+}
+
+.page-content {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.left-pane {
+  position:absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 345px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.right-pane {
+  position: absolute;
+  top: 0;
+  left: 345px;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Rarity Colors */
 .common {
   color: white;
 }
 
 .uncommon {
-  color: green;
+  color: #55FF55;
 }
 
 .rare {
-  color: blue;
+  color: #5555FF;
 }
 
 .epic {
-  color: purple;
+  color: #AA00AA;
 }
 
 .legendary {
-  color: orange;
+  color: #FFAA00;
+}
+
+.text-link {
+  color: #00AAFF;
+  text-decoration: underline;
+}
+
+.shard-link:hover {
+  color: #00CCFF;
+}
+
+/* Shard Components */
+.shard-select-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+}
+
+.shard-group-tabs {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.shard-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.shard-group-header {
+  padding: 2px 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: #222;
+  cursor: pointer;
+}
+
+.filtered .shard-group-header {
+  background-color: #444;
+}
+
+.shard-option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: top;
+  padding: 0 5px;
+  background-color: black;
+  cursor: pointer;
+  height: 50px;
+}
+
+.shard-option:hover {
+  background-color: #444;
+}
+
+.shard-option:active {
+  background-color: #666;
+}
+
+.active-shard-option .shard-option {
+  background-color: #999;
+}
+
+.shard-image {
+  width: 40px;
+  height: 40px;
+}
+
+.shard-image-big {
+  width: 200px;
+  height: 200px;
+}
+
+.shard-name {
+  font-weight: bold;
+}
+
+.shard-attribute {
+  font-style: italic;
+  font-size: 0.9em;
+  font-family: serif;
+}
+
+.coin-stack-wrap {
+  width: 32px;
+}
+
+img.coin-stack {
+  align-self: center;
+}
+
+.shard-price {
+  color: yellow;
+  font-family: monospace;
+}
+
+.shard-details {
+  padding: 10px;
+}
+
+.shard-detail-header {
+  align-items: start;
+}
+
+.shard-detail-summary {
+  padding: 10px;
+  width: 460px;
+}
+
+.shard-detail-line {
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.shard-detail-image {
+  background-color: black;
+  border-radius: 20px;
+}
+
+.shard-detail-name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.shard-detail-attribute {
+  font-style: italic;
+  font-size: 1.2em;
+  font-family: serif;
+}
+
+.effect-number {
+  color: lightgreen;
+  font-weight: bold;
 }

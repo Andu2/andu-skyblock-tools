@@ -93,56 +93,228 @@ function calculateValuatedFusesByTarget(db: ShardDatabase): Record<string, Valua
   return fuseOptions;
 }
 
-// interface ShardCost {
-//   shardId: string;
-//   shardName: string;
-//   cost: number;
-// }
+interface ShardCost {
+  shardId: string;
+  shardName: string;
+  cost: number;
+}
 
-// interface ValuatedRequirementInfo extends RequirementInfo {
-//   matchCosts: ShardCost[];
-// }
+interface ValuatedRequirementInfo extends RequirementInfo {
+  matchCosts: ShardCost[];
+}
 
-// function getValuatedRequirementInfo(db: ShardDatabase): ValuatedRequirementInfo[] {
-//   const requirementInfo: ValuatedRequirementInfo[] = db.requirementInfo.map(info => {
-//     const matchCosts: ShardCost[] = info.matches.map(match => {
-//       const shard = db.shards[match];
-//       if (!shard) {
-//         throw new Error(`Invalid shard match ${match} in requirement info`);
-//       }
-//       const bazaarPrice = db.prices[shard.bazaarId];
-//       if (bazaarPrice === undefined) {
-//         throw new Error(`Missing bazaar price for shard ${shard.id} (bazaar ID ${shard.bazaarId})`);
-//       }
-//       return {
-//         shardId: match,
-//         shardName: shard.name,
-//         cost: bazaarPrice
-//       }
-//     });
+function calculateValuatedRequirementInfo(db: ShardDatabase): Record<string, ValuatedRequirementInfo> {
+  const valuatedRequirementInfo: Record<string, ValuatedRequirementInfo> = {};
 
-//     matchCosts.sort((a, b) => a.cost - b.cost);
+  for (const key in db.specialRequirementInfo) {
+    const info = db.specialRequirementInfo[key];
+    const matchCosts: ShardCost[] = info.matches.map((match) => {
+      const shard = db.shards[match];
+      if (!shard) {
+        throw new Error(`Invalid shard match ${match} in requirement info`);
+      }
+      const bazaarPrice = db.prices[shard.bazaarId];
+      if (bazaarPrice === undefined) {
+        throw new Error(`Missing bazaar price for shard ${shard.id} (bazaar ID ${shard.bazaarId})`);
+      }
+      return {
+        shardId: match,
+        shardName: shard.name,
+        cost: bazaarPrice,
+      };
+    });
 
-//     return {
-//       ...info,
-//       matchCosts: matchCosts
-//     };
-//   });
+    matchCosts.sort((a, b) => a.cost - b.cost);
 
-//   return requirementInfo;
-// }
+    valuatedRequirementInfo[key] = {
+      ...info,
+      matchCosts: matchCosts,
+    };
+  }
+
+  return valuatedRequirementInfo;
+}
+
+export interface ShardContribution {
+  shardId: string;
+  targetId: string;
+  isRequired: boolean;
+  contributionScore: number;
+}
+
+interface RunningTotal {
+  sumIn: number;
+  countIn: number;
+  sumNotIn: number;
+  countNotIn: number;
+  cheapest: number;
+}
+
+// Rank shards by their contribution to cheap fuses for the target
+// Marginal contribution = avg price of fuses with shard in - avg price of fuses without shard
+function calculateContributions(
+  valuatedFusesByTarget: Record<string, ValuatedFuseResult[]>
+): Record<string, Record<string, ShardContribution>> {
+  const marginalContributions: Record<string, Record<string, ShardContribution>> = {};
+
+  for (const target in valuatedFusesByTarget) {
+    const fuses = valuatedFusesByTarget[target];
+    const runningTotals: Record<string, RunningTotal> = {};
+
+    // Identify the shards
+    for (const fuse of fuses) {
+      for (const shardId of [fuse.shard1, fuse.shard2]) {
+        if (!runningTotals[shardId]) {
+          runningTotals[shardId] = {
+            sumIn: 0,
+            countIn: 0,
+            sumNotIn: 0,
+            countNotIn: 0,
+            cheapest: Number.MAX_VALUE,
+          };
+        }
+      }
+    }
+
+    // Sums
+    for (const fuse of fuses) {
+      for (const shardId in runningTotals) {
+        const isInFuse = shardId === fuse.shard1 || shardId === fuse.shard2;
+        const pricePerShard = fuse.bazaarPricePerShard;
+
+        if (isInFuse) {
+          runningTotals[shardId].sumIn += pricePerShard;
+          runningTotals[shardId].countIn++;
+          if (pricePerShard < runningTotals[shardId].cheapest) {
+            runningTotals[shardId].cheapest = pricePerShard;
+          }
+        } else {
+          runningTotals[shardId].sumNotIn += pricePerShard;
+          runningTotals[shardId].countNotIn++;
+        }
+      }
+    }
+
+    // Calculate marginal contributions
+    marginalContributions[target] = {};
+    for (const shardId in runningTotals) {
+      const totals = runningTotals[shardId];
+      if (totals.countNotIn === 0) {
+        marginalContributions[target][shardId] = {
+          shardId: shardId,
+          targetId: target,
+          isRequired: true,
+          contributionScore: 0,
+        };
+      } else {
+        const priceIn = totals.sumIn / totals.countIn;
+        const priceNotIn = totals.sumNotIn / totals.countNotIn;
+        const avgMarginalContribution = priceIn - priceNotIn;
+        const weightedMarginalContribution = avgMarginalContribution * totals.countIn;
+        const opportunityScore = totals.countIn / totals.sumIn;
+        marginalContributions[target][shardId] = {
+          shardId: shardId,
+          targetId: target,
+          isRequired: false,
+          contributionScore: weightedMarginalContribution,
+        };
+      }
+    }
+  }
+
+  return marginalContributions;
+}
+
+function contributionSortFunc(a: ShardContribution, b: ShardContribution): number {
+  if (a.isRequired && !b.isRequired) {
+    return -1;
+  }
+  if (!a.isRequired && b.isRequired) {
+    return 1;
+  }
+  if (a.isRequired && b.isRequired) {
+    if (a.shardId < b.shardId) {
+      return -1;
+    }
+    if (a.shardId > b.shardId) {
+      return 1;
+    }
+    return 0;
+  }
+  return a.contributionScore - b.contributionScore;
+}
+
+function getSortedContributionsByTarget(
+  marginalContributions: Record<string, Record<string, ShardContribution>>
+): Record<string, ShardContribution[]> {
+  const sortedContributions: Record<string, ShardContribution[]> = {};
+
+  for (const target in marginalContributions) {
+    const contributions = Object.values(marginalContributions[target]);
+    contributions.sort(contributionSortFunc);
+    sortedContributions[target] = contributions;
+  }
+
+  return sortedContributions;
+}
+
+function getSortedContributionsByComponent(
+  marginalContributions: Record<string, Record<string, ShardContribution>>
+): Record<string, ShardContribution[]> {
+  const contributionsByComponent: Record<string, ShardContribution[]> = {};
+
+  for (const target in marginalContributions) {
+    for (const contribution of Object.values(marginalContributions[target])) {
+      if (!contributionsByComponent[contribution.shardId]) {
+        contributionsByComponent[contribution.shardId] = [];
+      }
+      contributionsByComponent[contribution.shardId].push(contribution);
+    }
+  }
+
+  for (const shardId in contributionsByComponent) {
+    contributionsByComponent[shardId].sort(contributionSortFunc);
+  }
+
+  return contributionsByComponent;
+}
+
+function getTotalPriceToMax(db: ShardDatabase) {
+  let totalPrice = 0;
+  for (const shard of Object.values(db.shards)) {
+    const bazaarPrice = db.prices[shard.bazaarId];
+    if (bazaarPrice === undefined) {
+      throw new Error(`Missing bazaar price for shard ${shard.id} (bazaar ID ${shard.bazaarId})`);
+    }
+    totalPrice += bazaarPrice * db.costToMax[shard.rarity];
+  }
+  return totalPrice;
+}
 
 export interface ShardCalc {
   db: ShardDatabase;
   valuatedFusesByTarget: Record<string, ValuatedFuseResult[]>;
+  valuatedRequirementInfo: Record<string, ValuatedRequirementInfo>;
+  sortedContributionsByTarget: Record<string, ShardContribution[]>;
+  sortedContributionsByComponent: Record<string, ShardContribution[]>;
+  totalPriceToMax: number;
 }
 
 export function getShardCalc(): ShardCalc {
   const db = loadData();
   const valuatedFusesByTarget = calculateValuatedFusesByTarget(db);
+  const valuatedRequirementInfo = calculateValuatedRequirementInfo(db);
+  const marginalContributions = calculateContributions(valuatedFusesByTarget);
+  const sortedContributionsByTarget = getSortedContributionsByTarget(marginalContributions);
+  const sortedContributionsByComponent = getSortedContributionsByComponent(marginalContributions);
+  const totalPriceToMax = getTotalPriceToMax(db);
 
   return {
     db: db,
     valuatedFusesByTarget: valuatedFusesByTarget,
+    valuatedRequirementInfo: valuatedRequirementInfo,
+    sortedContributionsByTarget: sortedContributionsByTarget,
+    sortedContributionsByComponent: sortedContributionsByComponent,
+    totalPriceToMax: totalPriceToMax,
   };
 }

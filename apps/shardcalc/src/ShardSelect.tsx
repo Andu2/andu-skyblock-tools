@@ -1,124 +1,154 @@
-import { createMemo, createSignal } from "solid-js";
-import { ShardGroupTabContent } from "./ShardGroupTabContent";
-import type { ShardViewModel, ShardGroup, ShardView } from "./view";
-import type { HistoryControls } from "./history";
-import "./ShardSelect.css";
+import { createSignal, useContext } from "solid-js";
+import type { ShardGroup, ShardView } from "./view";
 
-interface GroupType {
-  groupTypeName: string;
+interface GroupCategory {
+  categoryName: string;
   groups: ShardGroup[];
 }
 
-export function ShardSelect(props: { vm: ShardViewModel; selectedShard: string; history: HistoryControls }) {
-  const groupTypes: GroupType[] = [
+import { ShardOption } from "./ShardOption";
+import { AppContext } from "./appContext";
+
+function ShardSelectGroup(props: { handleToggleGroup: () => void; group: ShardGroup }) {
+  const { vm } = useContext(AppContext);
+  return (
+    <div>
+      <div class="shard-group-header" onClick={() => props.handleToggleGroup()}>
+        {props.group.groupName}
+      </div>
+      {props.group.shardIds.length > 0 && (
+        <div class="shard-group">
+          {props.group.shardIds.map(vm.getShard).map((shard) => (
+            <ShardOption shard={shard} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function ShardSelect() {
+  const { vm } = useContext(AppContext);
+  const groupCategories: GroupCategory[] = [
     {
-      groupTypeName: "Rarity",
-      groups: props.vm.rarityGroups,
+      categoryName: "Rarity",
+      groups: vm.rarityGroups,
     },
     {
-      groupTypeName: "Category",
-      groups: props.vm.categoryGroups,
+      categoryName: "Category",
+      groups: vm.categoryGroups,
     },
     {
-      groupTypeName: "Skill",
-      groups: props.vm.skillGroups,
+      categoryName: "Skill",
+      groups: vm.skillGroups,
     },
     {
-      groupTypeName: "Family",
-      groups: props.vm.familyGroups,
+      categoryName: "Family",
+      groups: vm.familyGroups,
     },
     {
-      groupTypeName: "Source Type",
-      groups: props.vm.sourceTypeGroups,
+      categoryName: "Source Type",
+      groups: vm.sourceTypeGroups,
     },
     {
-      groupTypeName: "Echo Group",
-      groups: props.vm.tagGroups,
+      categoryName: "Echo Group",
+      groups: vm.tagGroups,
     },
   ];
 
   const [searchTerm, setSearchTerm] = createSignal("");
-  const [groupType, setGroupType] = createSignal(-1);
-  const [group, setGroup] = createSignal(-1);
-
-  const groupOptions = createMemo(() => {
-    if (groupType() === -1) return [];
-    return groupTypes[groupType()].groups.map((g, index) => ({
-      label: g.groupName,
-      value: index,
-    }));
-  });
-  const groupName = createMemo(() => {
-    if (groupType() === -1 || group() === -1) return "";
-    return groupTypes[groupType()].groups[group()].groupName;
-  });
-  const groupShards = createMemo(() => {
-    if (groupType() === -1 || group() === -1) return [];
-    return groupTypes[groupType()].groups[group()].shardIds.map((id) => props.vm.getShard(id));
-  });
+  const [groupCategory, setGroupCategory] = createSignal(0);
+  const [expandedGroups, setExpandedGroups] = createSignal<boolean[]>(
+    Array(groupCategories[0].groups.length).fill(false)
+  );
 
   function handleSetGroupType(index: number) {
-    setGroupType(index);
-    setGroup(-1);
+    if (index !== groupCategory()) {
+      setExpandedGroups(Array(groupCategories[index].groups.length).fill(false));
+    }
+    setGroupCategory(index);
   }
 
-  function getFilteredShards() {
-    setGroupType(-1);
-    const term = searchTerm().toLowerCase();
-    return props.vm.shardIds.filter((shardId) => {
-      const shard = props.vm.getShard(shardId);
-      return (
-        shard.id.toLowerCase().includes(term) ||
-        shard.name.toLowerCase().includes(term) ||
-        shard.rarity.toLowerCase().includes(term) ||
-        shard.attributeName.toLowerCase().includes(term) ||
-        (shard.families && Object.keys(shard.families).some((family) => family.toLowerCase().includes(term)))
-      );
-    });
+  function handleToggleGroup(index: number) {
+    const newExpandedGroups = [...expandedGroups()];
+    newExpandedGroups[index] = !newExpandedGroups[index];
+    setExpandedGroups(newExpandedGroups);
   }
+
+  function expandAll() {
+    setExpandedGroups(Array(groupCategories[groupCategory()].groups.length).fill(true));
+  }
+
+  function collapseAll() {
+    setExpandedGroups(Array(groupCategories[groupCategory()].groups.length).fill(false));
+  }
+
+  function matchesSearchTerm(shard: ShardView): boolean {
+    const term = searchTerm().toLowerCase();
+    return !!(
+      shard.id.toLowerCase().includes(term) ||
+      shard.name.toLowerCase().includes(term) ||
+      shard.attributeName.toLowerCase().includes(term) ||
+      (shard.families && Object.keys(shard.families).some((family) => family.toLowerCase().includes(term)))
+    );
+  }
+
+  const filteredShardGroups = () => {
+    return groupCategories[groupCategory()].groups.map((group, i) => {
+      if (!expandedGroups()[i]) {
+        return {
+          groupName: group.groupName,
+          shardIds: [],
+        };
+      }
+      return {
+        groupName: group.groupName,
+        shardIds: group.shardIds.filter((shardId) => {
+          const shard = vm.getShard(shardId);
+          return matchesSearchTerm(shard);
+        }),
+      };
+    });
+  };
+
+  const isFiltered = () => {
+    return searchTerm().length > 0;
+  };
 
   return (
-    <div>
-      <div class="history-controls">
-        <button disabled={!props.history.canGoBack()} onClick={props.history.goBack}>
-          Back
-        </button>
-        <button disabled={!props.history.canGoForward()} onClick={props.history.goForward}>
-          Forward
-        </button>
-      </div>
-      <div class="selected-shard">Selected Shard: {props.selectedShard || "None"}</div>
-      <input
-        type="text"
-        placeholder="Search shards..."
-        value={searchTerm()}
-        onInput={(e) => setSearchTerm(e.currentTarget.value)}
-      />
-      <div class="shard-search-menus">
-        <div class="shard-group-type-tabs">
-          {groupTypes.map((type, i) => (
-            <div class="shard-group-type-tab" onClick={() => handleSetGroupType(i)}>
-              <h3>{type.groupTypeName}</h3>
+    <div class="shard-select">
+      <div class="shard-select-header">
+        <input
+          type="text"
+          placeholder="Filter shards..."
+          value={searchTerm()}
+          onInput={(e) => setSearchTerm(e.currentTarget.value)}
+        />
+        <button onClick={() => setSearchTerm("")}>Clear</button>
+        <div class="row shard-category-tabs">
+          {groupCategories.map((type, i) => (
+            <div
+              class="shard-category-tab"
+              classList={{ active: groupCategory() === i }}
+              onClick={() => handleSetGroupType(i)}
+            >
+              {type.categoryName}
             </div>
           ))}
         </div>
-        {groupType() !== -1 && (
-          <div class="shard-group-tabs">
-            {groupOptions().map((option, i) => (
-              <div class="shard-group-tab" onClick={() => setGroup(option.value)}>
-                <h3>{option.label}</h3>
-              </div>
-            ))}
-          </div>
-        )}
-        {groupType() !== -1 && group() !== -1 && (
-          <ShardGroupTabContent
-            groupName={groupName()}
-            shards={groupShards()}
-            selectedShard={props.selectedShard}
-            onSelect={props.history.selectNewShard}
-          />
-        )}
+        <div class="row shard-group-actions">
+          <button class="shard-expand-all" onClick={() => expandAll()}>
+            Expand All
+          </button>
+          <button class="shard-collapse-all" onClick={() => collapseAll()}>
+            Collapse All
+          </button>
+        </div>
+      </div>
+      <div class="shard-group-tabs" classList={{ filtered: isFiltered() }}>
+        {filteredShardGroups().map((group, i) => (
+          <ShardSelectGroup handleToggleGroup={() => handleToggleGroup(i)} group={group} />
+        ))}
       </div>
     </div>
   );
